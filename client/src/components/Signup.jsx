@@ -74,7 +74,7 @@ const Login = () => {
 
     return (
         <div className='flex justify-center w-screen'>
-        <div className='p-10 bg-slate-950 text-white flex-col align-center justify-center rounded-xl card'>
+        <div className='p-10 bg-slate-950 text-white flex-col align-center justify-center rounded-xl card border-2 border-slate-700'>
             <div className='flex flex-row justify-center items-center'>
                 <h2 className='text-2xl'> Welcome to <span className='text-yellow-400 font-thin'>Tradewise</span></h2>
             </div>
