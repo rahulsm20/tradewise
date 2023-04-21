@@ -32,7 +32,7 @@ const Login = () => {
             <div className='flex flex-row justify-center items-center'>
                 <h2 className='text-2xl'> Welcome to <span className='text-yellow-400 font-thin'>Tradewise</span></h2>
             </div>
-            <img src='../../public/logo.png' className='login-logo' alt='logo' />
+            <img src='/logo.png' className='login-logo' alt='logo' />
             <p className='mt-3 text-xl'>Login</p>
             <hr />
             <form className='flex flex-col gap-4 justify-center items-center mt-5' onSubmit={handleForm}>

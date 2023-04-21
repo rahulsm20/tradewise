@@ -52,7 +52,7 @@ const Login = () => {
 
     const handleForm = () => {
         event.preventDefault();
-        if (password==confirmpassword){
+        // if (password==confirmpassword){
           axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/signup`,{
             email:email,
             password:password
@@ -66,10 +66,10 @@ const Login = () => {
               setFailed(true)
             })
             console.log(email,password)
-          }
-        else{
-          alert('Please enter same passwords')
-        }
+          // }
+        // else{
+        //   alert('Please enter same passwords')
+        // }
     };
 
     return (
