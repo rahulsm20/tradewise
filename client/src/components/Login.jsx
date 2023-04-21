@@ -15,10 +15,9 @@ const Login = () => {
             email:email,
             password:password
         })
-        .then((result)=>{
-            localStorage.setItem('username',email.slice(0,5))
-            sessionStorage.setItem('sessionToken',result.data.token)
-            navigate('/news')})
+        .then((result)=>{localStorage.setItem('username',email.slice(0,5)) 
+        sessionStorage.setItem('sessionToken',result.data.token)})
+        .then(()=> navigate('/news'))
             .catch((err)=>{
             setFailed(true)
             console.log(err)

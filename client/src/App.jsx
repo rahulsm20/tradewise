@@ -16,9 +16,9 @@ function App() {
     <Routes className="App">
       <Route path='/' element={<Login/>}/>
       <Route path='/signup' element={<Signup/>}/>
-        <Route path='/news' element={isAuthenticated ? <News/>: <Navigate to='/'/>} />
-        <Route path='/budget' element={isAuthenticated ? <News/>: <Navigate to='/'/>}/>
-        <Route path='/dashboard' element={isAuthenticated ? <News/>: <Navigate to='/'/>}/>
+      <Route path='/news' element={isAuthenticated ? <News/>: <Navigate to='/'/>} />
+      <Route path='/budget' element={isAuthenticated ? <Budget/>: <Navigate to='/'/>}/>
+      <Route path='/dashboard' element={isAuthenticated ? <Home/>: <Navigate to='/'/>}/>
       <Route path='*' element={<Navigate to='/'/>}/>
     </Routes>
   )
