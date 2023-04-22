@@ -59,13 +59,14 @@ const Login = () => {
           })
           .then((result)=>{
             localStorage.setItem('username',email.slice(0,5))
-            sessionStorage.setItem('sessionToken',result.data.token)
-            navigate('/news');})
+            sessionStorage.setItem('sessionToken',result.data.token)})
+            .then(()=>
+            navigate('/news'))
             .catch((err)=>{
               console.log(err)
               setFailed(true)
             })
-            console.log(email,password)
+            console.log(email,password,confirmpassword)
           }
         else{
           alert('Please enter same passwords')
