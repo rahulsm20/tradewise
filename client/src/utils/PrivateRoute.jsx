@@ -4,7 +4,7 @@ import {Outlet, Navigate } from 'react-router-dom'
 const PrivateRoute = () => {
     let auth = {token : sessionStorage.getItem('sessionToken')}
   return (
-    auth ? <Outlet/> : <Navigate to='/login'/>
+    auth.token ? <Outlet/> : <Navigate to='/login'/>
     )
 }
 

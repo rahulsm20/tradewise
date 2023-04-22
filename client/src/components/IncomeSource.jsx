@@ -42,12 +42,12 @@ const IncomeSource = () => {
           return(
             <div className='card p-5 gap-3 hover:bg-zinc-800 justify-center grid grid-cols-2' key={key}>
             <p className='text-sm'>
-            {income.name}
+            {income.category}
             </p>
             <span className='text-xl'>
             {income.amount.toLocaleString('en-IN',{style:"currency",currency:"INR"})}
             </span>
-            <button className='btn btn-error rounded-lg btn-sm' onClick={()=>handleRemove(income.name)}>Remove</button>
+            <button className='btn btn-error rounded-lg btn-sm' onClick={()=>handleRemove(income.category)}>Remove</button>
             </div>
          )
         }) 
