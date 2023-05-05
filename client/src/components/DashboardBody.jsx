@@ -27,7 +27,7 @@ const DashboardBody = () => {
       })}
       </div>
       <div className='my-12 '>
-        <LineChart symbol1="MSFT" symbol2="NFLX" symbol3="META"/>  
+        <LineChart symbol1="MSFT" symbol2="NFLX"/>  
       </div>
     </div>
   )

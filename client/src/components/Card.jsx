@@ -3,10 +3,7 @@ import axios from 'axios'
 const Card = (props) => {
   const [dailyChange, setDailyChange] = useState(0);
   useEffect(() => {
-    axios
-      .get(
-        `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${props.symbol}&apikey=${import.meta.env.STOCK_API_KEY_4}`
-      )
+    axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${props.symbol}&apikey=${import.meta.env.STOCK_API_KEY}`)
       .then(response => {
         const series = response.data[`Time Series (Daily)`];
         const dates = Object.keys(series);
@@ -19,7 +16,7 @@ const Card = (props) => {
       .catch(error => {
         console.error(error);
       });
-  }, [props.symbol]);
+  }, []);
   
   return (
     <div className="card bg-blue-950 shadow-3xl ">

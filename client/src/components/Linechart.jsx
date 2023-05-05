@@ -7,10 +7,8 @@ const StockChart = ({symbol1,symbol2,symbol3}) => {
   const [indexData, setIndexData] = useState([]);
   const [userData, setUserData] = useState([]);
   const [additionalData,setAdditionalData]=useState([]);
-  const [cachedData, setCachedData] = useState(() => {
-    const cachedDataStr = localStorage.getItem('cachedData');
-      return cachedDataStr ? JSON.parse(cachedDataStr): [];
-  });
+  const [cachedData, setCachedData] = useState(null);
+  const [hasCachedData, setHasCachedData] = useState(false);
   const [loading,setLoading] = useState(true);
 
 
@@ -57,23 +55,41 @@ const StockChart = ({symbol1,symbol2,symbol3}) => {
   const stock2Name = 'NFLX';
   const stock3Name = 'META';
   
+  // useEffect(() => {
+  //   const length = Math.min(indexData.length, userData.length, additionalData.length);
+  //   const combinedData = indexData.slice(0, length).reverse().map((stock1Datum, index) => ({
+  //     date: stock1Datum.date,
+  //     [stock1Name]: stock1Datum.close,
+  //     [stock2Name]: userData[index].close,
+  //     [stock3Name]: additionalData[index].close,
+  //   }));
+  
+  //   localStorage.setItem('cachedData', JSON.stringify(combinedData));
+  
+  //   setCachedData(combinedData);
+  // }, [indexData, userData, additionalData]);
+  
   useEffect(() => {
-    const length = Math.min(indexData.length, userData.length, additionalData.length);
-    const combinedData = indexData.slice(0, length).reverse().map((stock1Datum, index) => ({
-      date: stock1Datum.date,
-      [stock1Name]: stock1Datum.close,
-      [stock2Name]: userData[index].close,
-      [stock3Name]: additionalData[index].close,
-    }));
+    if (!hasCachedData) {
+      const cachedDataStr = localStorage.getItem('cachedData');
+      const cachedData = cachedDataStr ? JSON.parse(cachedDataStr) : [];
+      setCachedData(cachedData);
+      setHasCachedData(true);
+    } else {
+      const length = Math.min(indexData.length, userData.length, additionalData.length);
+      const combinedData = indexData.slice(0, length).reverse().map((stock1Datum, index) => ({
+        date: stock1Datum.date,
+        [stock1Name]: stock1Datum.close,
+        [stock2Name]: userData[index].close,
+        [stock3Name]: additionalData[index].close,
+      }));
+
+      localStorage.setItem('cachedData', JSON.stringify(combinedData));
+
+      setCachedData(combinedData);
+    }
+  }, [indexData, userData, additionalData, hasCachedData]);
   
-    localStorage.setItem('cachedData', JSON.stringify(combinedData));
-  
-    setCachedData(combinedData);
-  }, [indexData, userData, additionalData]);
-  
-  
-  
-  // const chartData = cachedData.length > 0 ? cachedData : [];
   
   return (
     <div>
