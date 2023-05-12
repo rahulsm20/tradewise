@@ -15,11 +15,11 @@ const Spendings = () => {
   }
   useEffect(()=>{
     axios.get(`${import.meta.env.VITE_SERVER_URL}/spending/get`)
-    .then((res)=>{if (JSON.stringify(res.data)!=JSON.stringify(spendings)){
+    .then((res)=>{{
       setSpendings(res.data)}})
     .then(()=>setLoading(false))
     .catch((err)=>console.log(err))
-  },[])
+  },[spendings])
 
   const handleRemoveSpending=((name)=>{
     axios.delete(`${import.meta.env.VITE_SERVER_URL}/spending/delete`,{

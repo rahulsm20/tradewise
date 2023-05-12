@@ -18,16 +18,16 @@ const DashboardBody = () => {
        Trending
        </h2> 
     <div className='gap-4 grid sm:flex-col md:grid-cols-2 lg:grid-cols-3'>
-    {loading ? 
+    {/* {loading ? 
         <progress className="progress w-56"></progress>        
     :stocks.map((stock,id)=>{
       return(
         <Card symbol={stock.symbol} key={id}/>
         )
-      })}
+      })} */}
       </div>
       <div className='my-12 '>
-        <LineChart symbol1="MSFT" symbol2="NFLX"/>  
+        <LineChart symbol1="MSFT" symbol2="NFLX" symbol3="AAPL"/>  
       </div>
     </div>
   )

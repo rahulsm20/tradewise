@@ -16,7 +16,7 @@ const StockChart = ({symbol1,symbol2,symbol3}) => {
     const fetchData = async () => {
       try {
         const [response1, response2, response3] = await Promise.all([
-          axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol1}&apikey=${import.meta.env.STOCK_API_KEY}`),
+          axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol1}&apikey=${import.meta.env.STOCK_API_KEY_4}`),
           axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol2}&apikey=${import.meta.env.STOCK_API_KEY_2}`),
           axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol3}&apikey=${import.meta.env.STOCK_API_KEY_3}`),
         ]);

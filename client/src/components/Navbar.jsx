@@ -32,10 +32,10 @@ const Navbar = () => {
     </ul>
   </div>
   <div className='navbar-end'>
-    <p className='text-sm'>
+    <p className='text-sm p-2'>
     {localStorage.getItem('username')}
     </p>
-    <button className='btn' onClick={handleLogout}>Logout</button>
+    <button className='lg:btn sm:btn-sm hover:bg-primary' onClick={handleLogout}>Logout</button>
   </div>
 </div>
   )

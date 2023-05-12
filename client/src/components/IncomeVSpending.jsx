@@ -9,14 +9,14 @@ const IncomeVSpending = () => {
   const [totalIncome,setTotalIncome]=useState(0)
   useEffect(()=>{
     axios.get(`${import.meta.env.VITE_SERVER_URL}/spending/get`)
-    .then((res)=>{if (JSON.stringify(res.data)!=JSON.stringify(spending)){
+    .then((res)=>{{
       setSpending(res.data)}})
     .catch((err)=>console.log(err))
   },[spending])
   
 useEffect(()=>{
   axios.get(`${import.meta.env.VITE_SERVER_URL}/income/get`)
-  .then((res)=>{if (JSON.stringify(res.data)!=JSON.stringify(incomes)){
+  .then((res)=>{{
     setIncomes(res.data)}})
   .then(()=>setLoading(false))
   .catch((err)=>console.log(err))
