@@ -15,7 +15,7 @@ const Assets = () => {
   }
   useEffect(()=>{
     axios.get(`${import.meta.env.VITE_SERVER_URL}/assets/get`)
-    .then((res)=>{{
+    .then((res)=>{if (JSON.stringify(res.data)!=JSON.stringify(assets)){
       setAssets(res.data)}})
     .then(()=>setLoading(false))
     .catch((err)=>console.log(err))

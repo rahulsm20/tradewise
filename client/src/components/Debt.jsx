@@ -15,7 +15,7 @@ const Debt = () => {
     }
     useEffect(()=>{
       axios.get(`${import.meta.env.VITE_SERVER_URL}/debt/get`)
-      .then((res)=>{{
+      .then((res)=>{if (JSON.stringify(res.data) !== JSON.stringify(debts)) {
         setDebts(res.data);
       }
     })

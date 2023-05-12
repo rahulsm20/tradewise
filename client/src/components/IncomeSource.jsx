@@ -16,7 +16,7 @@ const IncomeSource = () => {
   useEffect(()=>{
     axios.get(`${import.meta.env.VITE_SERVER_URL}/income/get`)
     .then((res)=>
-    {{
+    { if (JSON.stringify(res.data)!=JSON.stringify(incomes)){
       setIncomes(res.data)}})
     .then(()=>setLoading(false))
     .catch((err)=>console.log(err))

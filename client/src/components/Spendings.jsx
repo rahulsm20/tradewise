@@ -15,7 +15,7 @@ const Spendings = () => {
   }
   useEffect(()=>{
     axios.get(`${import.meta.env.VITE_SERVER_URL}/spending/get`)
-    .then((res)=>{{
+    .then((res)=>{if (JSON.stringify(res.data)!=JSON.stringify(spendings)){
       setSpendings(res.data)}})
     .then(()=>setLoading(false))
     .catch((err)=>console.log(err))
