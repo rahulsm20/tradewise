@@ -1,7 +1,7 @@
 import React from 'react'
-import Navbar from './Navbar'
-import DashboardBody from './DashboardBody'
-import Footer from './Footer'
+import Navbar from '../components/Navbar'
+import DashboardBody from '../components/DashboardBody'
+import Footer from '../components/Footer'
 const Home = () => {
   return (
     <div className='w-screen'>

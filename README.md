@@ -1,5 +1,15 @@
 # Tradewise
 
+### Index
+- [Tradewise](#tradewise)
+    - [Index](#index)
+    - [Tech stack](#tech-stack)
+    - [System Architecture](#system-architecture)
+      - [C4 Model](#c4-model)
+    - [Database Design](#database-design)
+      - [ER Diagram](#er-diagram)
+      - [Database Schema](#database-schema)
+    - [Screenshots](#screenshots)
 ### Tech stack
 * Frontend 
   * ReactJS
@@ -10,6 +20,18 @@
   * PostgreSQL
 * Build tool 
   * Vite
+
+### System Architecture
+#### C4 Model
+![system_architecture](https://github.com/rahulsm20/mikesCarRental/assets/77540672/043a2fd8-f18d-4ad0-a0dc-16c6435f4f5b)
+
+
+### Database Design
+#### ER Diagram
+![ER_Diagram](https://github.com/rahulsm20/mikesCarRental/assets/77540672/0e03222e-2496-48e6-9b5e-5d40471563b2)
+#### Database Schema
+![Screenshot 2023-08-08 195028](https://github.com/rahulsm20/mikesCarRental/assets/77540672/4fc46bf0-775c-4cb0-9e87-507ff2470c1b)
+
 ### Screenshots 
 ![Login](https://user-images.githubusercontent.com/77540672/232229235-8432d45b-3af4-4588-b657-a913b78fbca7.png)
 

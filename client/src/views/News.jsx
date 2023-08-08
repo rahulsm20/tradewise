@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from './Navbar';
+import Navbar from '../components/Navbar';
 import axios from 'axios';
-import Sidebar from './Sidebar';
-import NewsCard from './NewsCard';
-import Footer from './Footer';
+import Sidebar from '../components/Sidebar';
+import NewsCard from '../components/NewsCard';
+import Footer from '../components/Footer';
 const News = () => {
   const[query,setQuery]=useState('')
   const[changedQuery,setChangedQuery]=useState('stocks')

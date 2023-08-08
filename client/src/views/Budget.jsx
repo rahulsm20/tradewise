@@ -1,7 +1,7 @@
 import React from 'react'
-import Navbar from './Navbar'
-import BudgetBody from './BudgetBody'
-import Footer from './Footer'
+import Navbar from '../components/Navbar'
+import BudgetBody from '../components/BudgetBody'
+import Footer from '../components/Footer'
 const Budget = () => {
   return (
     <div className='h-screen w-screen'>
