@@ -4,7 +4,7 @@ import BudgetBody from '../components/BudgetBody'
 import Footer from '../components/Footer'
 const Budget = () => {
   return (
-    <div className='h-screen w-screen'>
+    <div className='h-screen'>
         <Navbar/>
         <BudgetBody/>
         <Footer/>

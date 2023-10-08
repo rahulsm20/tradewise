@@ -20,7 +20,6 @@ const AccountBalance = () => {
   const handleUpdate = (username) => {
     axios.patch(`${import.meta.env.VITE_SERVER_URL}/balance/update?username=${username}&balance=${amount}`)
     .then(()=>alert('Updated balance'))
-    // .then(()=>window.location.reload(true))
     .catch((err)=>console.log(err))
   };
 

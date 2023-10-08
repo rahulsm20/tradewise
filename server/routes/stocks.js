@@ -1,10 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const addStock = require('../controllers/addStock')
-const getStocks = require('../controllers/getStocks')
+const {addStock,getStocks}= require("../controllers/stocks")
 
-router.get('/',getStocks)
-router.post('/add',addStock)
+router.get('/:user_id',getStocks)
+router.post('/:user_id',addStock)
 
 
 module.exports=router

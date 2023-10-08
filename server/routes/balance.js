@@ -1,7 +1,5 @@
 const express = require('express')
-const getBalance = require('../controllers/getBalance')
-const updateBalance = require('../controllers/updateBalance')
-const addBalance = require('../controllers/addBalance')
+const {getBalance,updateBalance,addBalance} = require("../controllers/balance")
 const router = express.Router()
 
 router.get('/get',getBalance)

@@ -1,116 +1,88 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { AreaChart,LineChart, Area,Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import loadGIF from '../assets/loading-gif.gif'
+import React, { useEffect, useState } from "react";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
-const StockChart = ({symbol1,symbol2,symbol3}) => {
-  const [indexData, setIndexData] = useState([]);
-  const [userData, setUserData] = useState([]);
-  const [additionalData,setAdditionalData]=useState([]);
-  const [cachedData, setCachedData] = useState(null);
-  const [hasCachedData, setHasCachedData] = useState(false);
-  const [loading,setLoading] = useState(true);
-
+const LineChartComponent = ({ symbols }) => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  var symbolsArr = [];
+  symbols.forEach((symbol) => {
+    symbolsArr.push(symbol.symbol);
+  });
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [response1, response2, response3] = await Promise.all([
-          axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol1}&apikey=${import.meta.env.STOCK_API_KEY_4}`),
-          axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol2}&apikey=${import.meta.env.STOCK_API_KEY_2}`),
-          axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol3}&apikey=${import.meta.env.STOCK_API_KEY_3}`),
-        ]);
-  
-        const series1 = response1.data['Time Series (Daily)'];
-        const parsedData1 = Object.keys(series1).map(date => ({
+    const fetchDataFromLocalStorage = async () => {
+      const fetchedData = await Promise.all(
+        symbols.map(async (symbol) => {
+          const stock = symbol.symbol;
+          const savedData = localStorage.getItem(`stockData_${stock}`);
+          return {
+            stock,
+            data: savedData ? JSON.parse(savedData) : [],
+          };
+        })
+      );
+      const stockData = fetchedData.map((response) => {
+        const series = response.data["Time Series (Daily)"];
+        const parsedData = Object.keys(series).map((date) => ({
           date,
-          close: parseFloat(series1[date]['4. close']),
+          stock: response.stock,
+          value: parseFloat(series[date]["4. close"]),
         }));
-        setIndexData(parsedData1);
-  
-        const series2 = response2.data['Time Series (Daily)'];
-        const parsedData2 = Object.keys(series2).map(date => ({
-          date,
-          close: parseFloat(series2[date]['4. close']),
-        }));
-        setUserData(parsedData2);
-  
-        const series3 = response3.data['Time Series (Daily)'];
-        const parsedData3 = Object.keys(series3).map(date => ({
-          date,
-          close: parseFloat(series3[date]['4. close']),
-        }));
-        setAdditionalData(parsedData3);
-  
-        setLoading([1, 1, 1]);
-      } catch (error) {
-        console.error(error);
-      }
+        return parsedData;
+      });
+
+      const combinedData = [];
+
+      // Iterate over each array
+      stockData.forEach((arr) => {
+        arr.forEach((currentObj) => {
+          // Find an existing object in the combinedData array with the same date
+          const existingObj = combinedData.find(
+            (obj) => obj.date === currentObj.date
+          );
+          if (existingObj) {
+            existingObj[currentObj.stock] = currentObj.value;
+          } else {
+            currentObj[currentObj.stock] = currentObj.value;
+            delete currentObj.stock;
+            delete currentObj.value;
+            combinedData.push(currentObj);
+          }
+        });
+      });
+
+      setData(combinedData);
     };
-  
-    fetchData();
-  }, [symbol1, symbol2, symbol3]);
-  
-  const stock1Name = 'MSFT';
-  const stock2Name = 'NFLX';
-  const stock3Name = 'META';
-  
-  // useEffect(() => {
-  //   const length = Math.min(indexData.length, userData.length, additionalData.length);
-  //   const combinedData = indexData.slice(0, length).reverse().map((stock1Datum, index) => ({
-  //     date: stock1Datum.date,
-  //     [stock1Name]: stock1Datum.close,
-  //     [stock2Name]: userData[index].close,
-  //     [stock3Name]: additionalData[index].close,
-  //   }));
-  
-  //   localStorage.setItem('cachedData', JSON.stringify(combinedData));
-  
-  //   setCachedData(combinedData);
-  // }, [indexData, userData, additionalData]);
-  
-  useEffect(() => {
-    if (!hasCachedData) {
-      const cachedDataStr = localStorage.getItem('cachedData');
-      const cachedData = cachedDataStr ? JSON.parse(cachedDataStr) : [];
-      setCachedData(cachedData);
-      setHasCachedData(true);
-    } else {
-      const length = Math.min(indexData.length, userData.length, additionalData.length);
-      const combinedData = indexData.slice(0, length).reverse().map((stock1Datum, index) => ({
-        date: stock1Datum.date,
-        [stock1Name]: stock1Datum.close,
-        [stock2Name]: userData[index].close,
-        [stock3Name]: additionalData[index].close,
-      }));
 
-      localStorage.setItem('cachedData', JSON.stringify(combinedData));
+    fetchDataFromLocalStorage();
+    setLoading(false); // Set loading to false once the data is ready
+  }, []); // Empty dependency array to run this effect only once
 
-      setCachedData(combinedData);
-    }
-  }, [indexData, userData, additionalData, hasCachedData]);
-  
-  
-  return (
+  return loading ? (
+    <img src="/loading.svg" alt="Loading" />
+  ) : (
     <div>
-    {
-      loading[0] || loading[1] ? 
-      <div>
-        <ResponsiveContainer width="100%" height={400}>
-        <AreaChart data={cachedData} title={symbol1 + ' v '+ symbol2 + 'v' + symbol3}>
+      <ResponsiveContainer width="100%" height={500}>
+        <AreaChart data={data} width={500} height={500}>
           <XAxis dataKey="date" />
           <YAxis />
-          <Area type="monotone" dataKey={stock2Name} stroke="#F37335" />
-          <Area type="monotone" dataKey={stock1Name} stroke="#FF0000" />
-          <Area type="monotone" dataKey={stock3Name} stroke="#89CFF0" />
           <Tooltip />
           <Legend />
+          <Area type="monotone" dataKey={symbolsArr[0]} stroke="#FF0000" />
+          <Area type="monotone" dataKey={symbolsArr[1]} stroke="#89CFF0" />
+          <Area type="monotone" dataKey={symbolsArr[2]} stroke="#F37335" />
         </AreaChart>
-        </ResponsiveContainer>
-      </div> : <img src={loadGIF}/> 
-      }
-      </div>
+      </ResponsiveContainer>
+    </div>
   );
-}
+};
 
-export default StockChart;
+export default LineChartComponent;

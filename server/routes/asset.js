@@ -1,11 +1,9 @@
 const express=require('express')
-const addAsset = require('../controllers/addAsset')
-const getAsset= require('../controllers/getAssets')
-const deleteAsset= require('../controllers/deleteAsset')
+const {addAsset,getAssets,deleteAsset} = require('../controllers/assets')
 const router=express.Router()
 
 router.post('/add',addAsset)
-router.get('/get',getAsset)
+router.get('/get',getAssets)
 router.delete('/delete',deleteAsset)
 
 module.exports=router

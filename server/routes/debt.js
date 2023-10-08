@@ -1,11 +1,9 @@
-const express=require('express')
-const addDebt = require('../controllers/addDebt')
-const getDebt= require('../controllers/getDebt')
-const deleteDebt= require('../controllers/deleteDebt')
-const router=express.Router()
+const express = require("express");
+const { addDebt, getDebt, deleteDebt } = require("../controllers/debt");
+const router = express.Router();
 
-router.post('/add',addDebt)
-router.get('/get',getDebt)
-router.delete('/delete',deleteDebt)
+router.post("/add", addDebt);
+router.get("/get", getDebt);
+router.delete("/delete", deleteDebt);
 
-module.exports=router
+module.exports = router;
