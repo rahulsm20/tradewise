@@ -7,7 +7,7 @@ import { Button } from "../@/components/ui/button";
 
 const Landing = () => {
   return (
-    <div className="landing text-end flex flex-col gap-10 body">
+    <div className="landing text-end flex flex-col gap-10">
       <div className="flex flex-wrap items-center p-4 gap-3 justify-around sticky top-0 z-10 backdrop-blur-3xl text-xs">
         <p className="flex gap-2 justify-center items-center text-lg">
           <HandCoins />
@@ -15,12 +15,12 @@ const Landing = () => {
         </p>
         <div className="flex gap-5">
           <SignInButton>
-            <Button variant="outline" className="rounded-full">
+            <Button variant="outline" className="rounded-lg">
               Sign In
             </Button>
           </SignInButton>
           <SignUpButton>
-            <Button variant="outline" className="rounded-full">
+            <Button variant="outline" className="rounded-lg">
               Sign Up
             </Button>
           </SignUpButton>
