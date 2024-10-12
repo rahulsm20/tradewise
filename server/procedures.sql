@@ -1,4 +1,4 @@
- //Table creation
+ --Table creation
  
  create table users(
  id serial primary key,
