@@ -8,7 +8,15 @@ import {
 } from "./tooltip";
 import { weiToEth } from "../../lib/utils";
 import dayjs from "dayjs";
-import { TransactionType } from "../../../types";
+import {
+  AssetType,
+  DebtType,
+  ExpenditureType,
+  IncomeType,
+  TransactionType,
+} from "../../../types";
+import { ArrowUpDown } from "lucide-react";
+import { Button } from "./button";
 
 export const Columns: ColumnDef<TransactionType>[] = [
   {
@@ -101,5 +109,141 @@ export const Columns: ColumnDef<TransactionType>[] = [
     accessorKey: "gas",
     header: "Gas (Wei)",
     cell: (info) => `${info.cell.row.original.gas || ""}`,
+  },
+];
+
+export const assetColumns: ColumnDef<AssetType>[] = [
+  {
+    accessorKey: "name",
+    header: "Asset",
+    cell: (info) => info.cell.row.original.name,
+  },
+  {
+    accessorKey: "type",
+    header: "Type",
+    cell: (info) => info.cell.row.original.type,
+  },
+  {
+    accessorKey: "value",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="hover:bg-inherit"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Value
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: (info) =>
+      `${info.cell.row.original.value.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+      })}`,
+  },
+];
+
+export const incomeColumns: ColumnDef<IncomeType>[] = [
+  {
+    accessorKey: "source",
+    header: "Source",
+    cell: (info) => info.cell.row.original.source,
+  },
+  {
+    accessorKey: "date",
+    header: "Date",
+    cell: (info) => dayjs(info.cell.row.original.date).format("Do MMM"),
+  },
+  {
+    accessorKey: "value",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="hover:bg-inherit"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Value
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: (info) =>
+      `${info.cell.row.original.value.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+      })}`,
+  },
+];
+
+export const expenditureColumns: ColumnDef<ExpenditureType>[] = [
+  {
+    accessorKey: "name",
+    header: "Name",
+    cell: (info) => info.cell.row.original.name,
+  },
+  {
+    accessorKey: "date",
+    header: "Date",
+    cell: (info) => dayjs(info.cell.row.original.date).format("Do MMM"),
+  },
+  {
+    accessorKey: "value",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="hover:bg-inherit"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Value
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: (info) =>
+      `${info.cell.row.original.value.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+      })}`,
+  },
+];
+
+export const debtColumns: ColumnDef<DebtType>[] = [
+  {
+    accessorKey: "name",
+    header: "Name",
+    cell: (info) => info.cell.row.original.name,
+  },
+  {
+    accessorKey: "startDate",
+    header: "Date",
+    cell: (info) => dayjs(info.cell.row.original.startDate).format("Do MMM"),
+  },
+  {
+    accessorKey: "amount",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="hover:bg-inherit"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Value
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: (info) =>
+      `${info.cell.row.original.amount.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+      })}`,
+  },
+  {
+    accessorKey: "interestRate",
+    cell: (info) => `${info.cell.row.original.interestRate}%`,
   },
 ];

@@ -11,7 +11,7 @@ import { Suspense } from "react";
 const NewsCard = ({ article }: { article: NewsArticleType }) => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <Card className="text-start transition transform duration-500 hover:translate-x-1 hover:-translate-y-1 hover:z-5 shadow-md hover:shadow-primary hover:shadow-inner dark:bg-zinc-900">
+      <Card className="text-start transition transform duration-500 hover:translate-x-1 hover:-translate-y-1 hover:z-5 shadow-md hover:shadow-[rgba(133,58,255,0.25)]  dark:bg-zinc-900">
         <a href={article.url} target="_blank">
           {article.urlToImage && (
             <img

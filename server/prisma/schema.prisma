@@ -14,15 +14,17 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  clerkId   String   @unique
-  name      String?
-  assets    Asset[]
-  stocks    Stock[]
-  wallet    Wallet[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String        @id @default(cuid())
+  email        String        @unique
+  clerkId      String        @unique
+  name         String?
+  assets       Asset[]
+  stocks       Stock[]
+  expenditures Expenditure[]
+  incomes      Income[]
+  debts        Debt[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 
   @@index([clerkId], name: "clerkId")
 }
@@ -36,20 +38,53 @@ model Stock {
   updatedAt DateTime @updatedAt
 }
 
-model Wallet {
-  id        String   @id @default(cuid())
-  address   String   @unique
-  userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+enum AssetType {
+  STOCK
+  CRYPTO
 }
 
 model Asset {
   id        String   @id @default(cuid())
   value     Float
+  name      String
+  type      String
   userId    String
+  date      DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Expenditure {
+  id        String   @id @default(cuid())
+  value     Float
+  name      String
+  userId    String
+  date      DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Income {
+  id        String   @id @default(cuid())
+  value     Float
+  source    String
+  userId    String
+  date      DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Debt {
+  id           String   @id @default(cuid())
+  name         String
+  amount       Float
+  startDate    DateTime
+  interestRate Float
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }

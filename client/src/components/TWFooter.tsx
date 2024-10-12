@@ -10,7 +10,7 @@ const TWFooter = () => {
     },
     {
       name: "Twitter",
-      url: "https://twitter.com/rahulsm_",
+      url: "https://twitter.com/",
     },
   ];
   const sections = [

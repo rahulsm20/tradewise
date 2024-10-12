@@ -1,9 +1,13 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import advancedFormat from "dayjs/plugin/advancedFormat";
+import dayjs from "dayjs";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+dayjs.extend(advancedFormat);
 
 export function formatToLocalCurrency(
   amount: number,
@@ -21,11 +25,21 @@ export const weiToEth = (
   returnType?: "string" | "number"
 ): string | number => {
   const bigIntWei = BigInt(wei);
-  const ether = bigIntWei / BigInt(1e18); // Get the whole number part
-  const remainder = bigIntWei % BigInt(1e18); // Get the remainder
-  const decimal = remainder.toString().padStart(18, "0"); // Convert remainder to a string and pad with leading zeros
+  const ether = bigIntWei / BigInt(1e18);
+  const remainder = bigIntWei % BigInt(1e18);
+  const decimal = remainder.toString().padStart(18, "0");
   if (returnType === "number") {
-    return parseFloat(`${ether}.${decimal.slice(0, 6)}`); // Concatenate and limit decimals
+    return parseFloat(`${ether}.${decimal.slice(0, 6)}`);
   }
-  return `${ether}.${decimal.slice(0, 6)}`; // Concatenate and limit decimals
+  return `${ether}.${decimal.slice(0, 6)}`;
 };
+
+export function randomIntFromInterval({
+  min,
+  max,
+}: {
+  min: number;
+  max: number;
+}) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}

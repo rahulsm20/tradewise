@@ -82,7 +82,7 @@ export function TWCombobox({
             <CommandEmpty>
               {loading ? <Loading /> : "No stocks found."}
             </CommandEmpty>
-            <CommandGroup>
+            <CommandGroup className="bg-background">
               {options.map((option) => (
                 <CommandItem
                   key={option.value}

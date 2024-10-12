@@ -22,11 +22,12 @@ const components: { title: string; href: string; description?: string }[] = [
   {
     href: "/dashboard?tab=web3",
     title: "Web3",
-    description: "Keep track of your web3 transactions",
+    description: "Make and track web3 transactions",
   },
   {
     href: "/dashboard?tab=expenses",
     title: "Expenses",
+    description: "Analyse revenue and expenses",
   },
 ];
 
@@ -46,7 +47,7 @@ export function Menubar() {
             Dashboard
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid grid-cols-1 w-3/4 gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-transparent">
+            <ul className="grid grid-cols-1 w-3/4 gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-background">
               {components.map((component) => (
                 <ListItem
                   className="bg-transparent"

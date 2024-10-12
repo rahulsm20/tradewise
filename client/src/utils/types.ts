@@ -1,3 +1,5 @@
+import { AssetType, DebtType, ExpenditureType, IncomeType } from "../types";
+
 export type StoreRootState = {
   stocks: {
     stockData: [];
@@ -10,6 +12,17 @@ export type StoreRootState = {
       balanceInUSD: string;
     };
     transactions: [];
+  };
+  expenses: {
+    expenseData: {
+      assets: AssetType[];
+      incomes: IncomeType[];
+      expenditures: ExpenditureType[];
+      debts: DebtType[];
+      totalAssetsValue: number;
+      totalIncome: number;
+      totalExpenditure: number;
+    };
   };
 };
 

@@ -1,6 +1,10 @@
 import { HandCoins } from "lucide-react";
 import Image from "../image";
 
+const SectionTitle = ({ children }: { children: React.ReactNode }) => {
+  return <h2 className=" text-5xl md:text-7xl">{children}</h2>;
+};
+
 const Hero = () => {
   return (
     <div className="flex flex-col gap-5 mx-40 items-center justify-center">
@@ -19,40 +23,36 @@ const Hero = () => {
           covered.
         </p>
       </div>
-      <section className="flex flex-col md:flex-row items-center transition ease-in-out delay-150 duration-300 p-10">
-        <p className="flex text-7xl">Analyse your investments</p>
+      <section className="flex flex-col md:flex-row items-center p-10 gap-5">
+        <SectionTitle>Analyse your investments</SectionTitle>
         <Image
-          src="dark-stocks-2.PNG"
+          src="stock_dark.PNG"
           className="w-full md:w-1/2 rounded-lg hidden dark:block "
         />
         <Image
-          src="light-stocks-2.PNG"
+          src="stock_light.PNG"
           className="w-full md:w-1/2 rounded-lg dark:hidden"
         />
       </section>
-      <section className="flex flex-col-reverse transition ease-in-out delay-150 md:flex-row items-center p-10">
+      <section className="flex flex-col-reverse md:flex-row items-center p-10 gap-5">
         <Image
           src="dark-web3.PNG"
-          className="w-full md:w-1/2 rounded-lg hidden dark:block  hover:-translate-y-1 transition-transform duration-300 hover:shadow-md shadow-gray-50"
+          className="w-full md:w-1/2 rounded-lg hidden dark:block "
         />
         <Image
           src="light-web3.PNG"
           className="w-full md:w-1/2 rounded-lg dark:hidden"
         />
-        <p className="flex text-7xl">
-          Make and track web3 transactions with ease
-        </p>
+        <SectionTitle> Make and track web3 transactions with ease</SectionTitle>
       </section>
-      <section className="flex flex-col-reverse transition ease-in-out delay-150 md:flex-row items-center p-10">
-        <p className="flex text-5xl md:text-7xl">
-          Keep up on the latest news and trends
-        </p>
+      <section className="flex flex-col-reverse md:flex-row items-center p-10 gap-5">
+        <SectionTitle> Keep up on the latest news and trends</SectionTitle>
         <Image
-          src="home.PNG"
+          src="home_dark.PNG"
           className="w-full md:w-1/2 rounded-lg hidden dark:block"
         />
         <Image
-          src="light-home.PNG"
+          src="home_light.PNG"
           className="w-full md:w-1/2 rounded-lg dark:hidden"
         />
       </section>

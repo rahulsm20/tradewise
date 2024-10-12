@@ -1,13 +1,14 @@
 import { SignInButton, SignOutButton, useUser } from "@clerk/clerk-react";
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { HandCoins, LogOut, Menu, Moon, Sun } from "lucide-react";
-import { Menubar } from "./Menubar";
-import { useTheme } from "./theme-provider";
 import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../@/components/ui/dropdown-menu";
+import { Menubar } from "./Menubar";
+import { useTheme } from "./theme-provider";
+import { Button } from "../@/components/ui/button";
 
 const Navbar = () => {
   const { setTheme, theme } = useTheme();
@@ -15,8 +16,8 @@ const Navbar = () => {
 
   return (
     <ul className="flex flex-wrap items-center p-4 gap-3 justify-between sticky top-0 z-10 backdrop-blur-3xl text-xs border-b">
-      <li className="flex items-center gap-4">
-        <p className="flex gap-2 justify-center items-center text-lg title font-semibold">
+      <li className=" items-center gap-4 hidden lg:block">
+        <p className="flex gap-2 justify-center items-center text-lg font-semibold leading-none tracking-tight">
           <HandCoins /> Tradewise
         </p>
       </li>
@@ -30,9 +31,16 @@ const Navbar = () => {
         <li>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Menu />
+              <Button className="p-2 bg-background border rounded-full hover:bg-accent text-foreground">
+                <Menu />
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
+              {isSignedIn && (
+                <DropdownMenuItem className="flex gap-2 hover:bg-inherit">
+                  <span>{user.fullName}</span>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem
                 className="flex gap-2"
                 onClick={() =>

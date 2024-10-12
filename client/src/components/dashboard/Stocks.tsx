@@ -143,7 +143,7 @@ const Stocks = ({ tickers, data = [], loading = true }: StockProps) => {
     fetchData();
   }, []);
 
-  if (loading || !tickers) {
+  if (loading || !tickers || stocksLoading) {
     return (
       <div>
         <RotateCw className="animate-spin" />

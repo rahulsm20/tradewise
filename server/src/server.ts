@@ -7,6 +7,7 @@ import cors from "cors";
 import express from "express";
 import prisma from "../prisma/client";
 import router from "./routes";
+import { infuraProxy } from "./controllers/user";
 const app = express();
 require("dotenv").config;
 
@@ -19,6 +20,7 @@ declare global {
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(express.json());
 
+app.post("/eth", infuraProxy);
 app.use(
   "/",
   ClerkExpressWithAuth({
@@ -47,4 +49,5 @@ app.use(
   },
   router
 );
+
 app.listen(3000, () => console.log("Listening on port 3000"));

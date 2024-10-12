@@ -1,4 +1,5 @@
 import axios from "axios";
+import { FieldValues } from "react-hook-form";
 import { UserDetailsType } from "../types";
 const api = axios.create({
   baseURL: "http://localhost:3000",
@@ -62,6 +63,46 @@ export const deleteStock = async (stockId: string) => {
 export const searchStock = async (query: string) => {
   try {
     const response = await api.get(`/user/stocks?search=${query}`);
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getBalanceInUSD = async (balance: bigint | 0) => {
+  try {
+    const response = await api.post(`/user/balanceInUSD`, {
+      balance,
+    });
+    return response.data.balanceInUSD;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getTransactions = async (address: string) => {
+  try {
+    const response = await api.post("/user/transactions", {
+      address,
+    });
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const addUpdateExpenseItem = async (data: FieldValues) => {
+  try {
+    const response = await api.post("/user/expenses", data);
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getExpenseData = async () => {
+  try {
+    const response = await api.get("/user/expenses");
     return response.data;
   } catch (err) {
     console.error(err);

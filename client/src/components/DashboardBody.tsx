@@ -5,18 +5,18 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { addUpdateUserDetails, getStockData } from "../api";
-import { setStocks, setTickers } from "../store/stocksSlice";
-import { StoreRootState } from "../utils/types";
-import Expenses from "./dashboard/Expenses";
-import Stocks from "./dashboard/Stocks";
-import Wallet from "./dashboard/Wallet";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "../@/components/ui/tabs";
+import { addUpdateUserDetails, getStockData } from "../api";
+import { setStocks, setTickers } from "../store/stocksSlice";
+import { StoreRootState } from "../utils/types";
+import Expenses from "./dashboard/Expenses";
+import Stocks from "./dashboard/Stocks";
+import Wallet from "./dashboard/Wallet";
 
 const stockFormSchema = z.object({
   stock: z.string().min(2, {
@@ -37,7 +37,6 @@ const DashboardBody = () => {
     (state: StoreRootState) => state.stocks.stockData
   );
   const tickers = useSelector((state: StoreRootState) => state.stocks.tickers);
-  const data = useSelector((state: StoreRootState) => state.stocks.tickers);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -130,7 +129,7 @@ const DashboardBody = () => {
           <Wallet />
         </TabsContent>
         <TabsContent value="expenses">
-          <Expenses tickers={tickers} data={data} />
+          <Expenses />
         </TabsContent>
       </Tabs>
     </div>

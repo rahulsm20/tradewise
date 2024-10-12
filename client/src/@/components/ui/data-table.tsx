@@ -5,6 +5,8 @@ import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -18,29 +20,44 @@ import {
   TableHeader,
   TableRow,
 } from "./table";
+import { useState } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  paginate?: boolean;
+  previousIcon?: string | React.ReactNode;
+  nextIcon?: string | React.ReactNode;
+  showPageData?: boolean;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  paginate = false,
+  previousIcon = "Previous",
+  nextIcon = "Next",
+  showPageData = true,
 }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = useState<SortingState>([]);
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: paginate ? getPaginationRowModel() : undefined,
     initialState: {
       pagination: {
         pageSize: 5,
       },
     },
+    state: {
+      sorting,
+    },
   });
   return (
-    <div className="text-center w-5/6">
+    <div className="text-center w-full">
       <div className="rounded-md border text-xs ">
         <Table className="overflow-x-scroll border">
           <TableHeader>
@@ -91,36 +108,42 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {data && data.length && (
+      {showPageData && data && data.length ? (
         <TableCaption className="flex justify-center">
           Showing your last {data && data.length < 25 ? data.length : "25"}{" "}
           transactions
         </TableCaption>
+      ) : (
+        <></>
       )}
-      <div className="flex items-center justify-end space-x-2 py-4 flex-col gap-4 md:flex-row">
-        <div className="flex gap-2">
-          <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-            Page {table.getState().pagination.pageIndex + 1} of{" "}
-            {table.getPageCount()}
+      {paginate && (
+        <div className="flex items-center justify-end space-x-2 py-4 flex-col gap-4 md:flex-row">
+          <div className="flex gap-2">
+            {showPageData && (
+              <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+                Page {table.getState().pagination.pageIndex + 1} of{" "}
+                {table.getPageCount()}
+              </div>
+            )}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              {previousIcon}
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              {nextIcon}
+            </Button>
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
         </div>
-      </div>
+      )}
     </div>
   );
 }

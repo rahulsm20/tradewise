@@ -1,15 +1,18 @@
 import express from "express";
+import { deleteStock } from "../controllers/stocks";
 import {
+  addUpdateExpenseData,
   addUpdateUserDetails,
   fetchStockData,
-  fetchUserDetails,
-  fetchWalletData,
+  getExpenseData,
+  getTransactions,
 } from "../controllers/user";
-import { deleteStock } from "../controllers/stocks";
 const router = express.Router();
 
 router.get("/stocks", fetchStockData);
 router.delete("/stocks", deleteStock);
-router.get("/wallet", fetchWalletData);
+router.post("/transactions", getTransactions);
+router.post("/expenses", addUpdateExpenseData);
+router.get("/expenses", getExpenseData);
 router.post("/", addUpdateUserDetails);
 export default router;

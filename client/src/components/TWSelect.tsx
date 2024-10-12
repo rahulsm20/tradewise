@@ -7,7 +7,7 @@ import {
 } from "../@/components/ui/select";
 
 type SelectOptionType = {
-  label: string;
+  label?: React.ReactNode;
   value: string;
 };
 
@@ -20,6 +20,8 @@ type SelectProps = {
   showLabel?: boolean;
   onChange: (value: string) => void;
   placeholder?: string;
+  gap?: string;
+  className?: string;
 };
 const TWSelect = ({
   options,
@@ -28,17 +30,25 @@ const TWSelect = ({
   showLabel = true,
   name,
   icon,
+  onChange,
+  placeholder,
+  gap = "0",
+  className,
 }: SelectProps) => {
   return (
-    <div className="grid w-full max-w-sm items-center gap-1.5">
+    <div
+      className={`grid w-full max-w-sm items-center ${className} ${
+        "gap-" + gap
+      } `}
+    >
       {showLabel && (
         <label htmlFor={name} className="flex">
           {label}
         </label>
       )}
-      <Select value={value}>
+      <Select value={value} onValueChange={onChange}>
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Theme" />
+          <SelectValue placeholder={placeholder ? placeholder : "Theme"} />
         </SelectTrigger>
         <SelectContent>
           {options.map(({ label, value }) => (
