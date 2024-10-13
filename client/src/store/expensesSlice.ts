@@ -13,6 +13,7 @@ const initialState: ExpenseDataState = {
     debts: [],
     totalAssetsValue: 0,
     totalIncome: 0,
+    totalExpenditure: 0,
   },
 };
 
