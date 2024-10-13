@@ -21,7 +21,7 @@ import tokenList from "../tokenList.json";
 const WalletActionModal = ({ ...props }) => {
   const { sendTransaction } = useSendTransaction();
   const [loading, setLoading] = useState(false);
-  const [prices, setPrices] = useState([]);
+  // const [prices, setPrices] = useState([]);
   const [txDetails, setTxDetails] = useState({});
   const sendFormSchema = z.object({
     to: z.string().min(42, {
@@ -81,13 +81,13 @@ const WalletActionModal = ({ ...props }) => {
     }
   };
 
-  async function fetchPrices(one: string, two: string) {
-    const res = await axios.get(`http://localhost:3001/tokenPrice`, {
-      params: { addressOne: one, addressTwo: two },
-    });
+  // async function fetchPrices(one: string, two: string) {
+  //   const res = await axios.get(`http://localhost:3001/tokenPrice`, {
+  //     params: { addressOne: one, addressTwo: two },
+  //   });
 
-    setPrices(res.data);
-  }
+  //   setPrices(res.data);
+  // }
   const tokenOne = swapForm.watch("fromToken");
   const tokenOneAmount = swapForm.watch("from");
   const tokenTwo = swapForm.watch("toToken");
@@ -114,8 +114,8 @@ const WalletActionModal = ({ ...props }) => {
       )}&fromAddress=${props.address}`
     );
 
-    let decimals = Number(`1E${tokenTwo.decimals}`);
-    console.log((Number(tx.data.toTokenAmount) / decimals).toFixed(2));
+    // let decimals = Number(`1E${tokenTwo.decimals}`);
+    // console.log((Number(tx.data.toTokenAmount) / decimals).toFixed(2));
 
     setTxDetails(tx.data.tx);
   }
@@ -139,8 +139,7 @@ const WalletActionModal = ({ ...props }) => {
 
   return (
     <Modal
-      onOk={() => {
-        console.log("ok");
+      onOk={async () => {
         try {
           sendForm.handleSubmit(onSubmit)();
         } catch (err) {
