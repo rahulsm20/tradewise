@@ -36,7 +36,7 @@ const Wallet = () => {
   const { data: balance } = useBalance({
     address: addresses.length > 0 ? addresses[0] : undefined,
   });
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const walletData = useSelector((state: StoreRootState) => state.wallet);
   const [chartData, setChartData] = useState<BalanceChartDataType[]>([]);
 
@@ -99,9 +99,10 @@ const Wallet = () => {
         setLoading(false);
       }
     };
-
-    fetchWalletData();
-  }, []);
+    if (isConnected) {
+      fetchWalletData();
+    }
+  }, [isConnected, addresses]);
 
   if (loading) {
     return (

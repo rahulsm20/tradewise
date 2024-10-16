@@ -1,9 +1,6 @@
 import { RotateCw, Search } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
-import { getNews } from "../api";
-import NewsCard from "../components/NewsCard";
 import { Input } from "../@/components/ui/input";
-import { NewsArticleType } from "../types";
 import {
   Pagination,
   PaginationContent,
@@ -12,6 +9,9 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../@/components/ui/pagination";
+import { getNews } from "../api";
+import NewsCard from "../components/NewsCard";
+import { NewsArticleType } from "../types";
 
 const HomeBody = () => {
   const [news, setNews] = useState([]);
@@ -20,7 +20,6 @@ const HomeBody = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const pageSize = 9;
-
   useEffect(() => {
     try {
       setLoading(true);

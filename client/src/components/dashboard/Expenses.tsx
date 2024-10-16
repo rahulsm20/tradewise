@@ -8,7 +8,7 @@ import {
   Plus,
   TrendingUp,
 } from "lucide-react";
-import { cloneElement, useEffect, useMemo, useState } from "react";
+import { cloneElement, useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -288,6 +288,7 @@ const AnalysisSection = ({ assets }: { assets: AssetType[] }) => {
 
 const AnalysisPie = ({ data }: { data?: AssetType[] }) => {
   const chartData: { type: string; total: number; fill: string }[] = [];
+
   if (data && data.length > 0) {
     data.forEach((asset) => {
       const index = chartData.findIndex((item) => item.type === asset.type);
@@ -328,9 +329,7 @@ const AnalysisPie = ({ data }: { data?: AssetType[] }) => {
     },
   } satisfies ChartConfig;
 
-  const totalVisitors = useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.total, 0);
-  }, []);
+  const totalVisitors = chartData.reduce((acc, curr) => acc + curr.total, 0);
 
   const [innerRadius, setInnerRadius] = useState(50);
 

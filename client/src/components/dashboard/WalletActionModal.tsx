@@ -71,7 +71,6 @@ const WalletActionModal = ({ ...props }) => {
 
   const onSubmit: SubmitHandler<FieldValues> = async ({ to, value }) => {
     setLoading(true);
-    console.log({ to, value });
     try {
       sendTransaction({ to, value: parseEther(`${value}`) });
     } catch (e) {
@@ -93,7 +92,6 @@ const WalletActionModal = ({ ...props }) => {
   const tokenTwo = swapForm.watch("toToken");
 
   async function fetchDexSwap() {
-    console.log({ props });
     const allowance = await axios.get(
       `https://api.1inch.io/v5.0/1/approve/allowance?tokenAddress=${tokenOne}&walletAddress=${props.address}`
     );
@@ -104,7 +102,6 @@ const WalletActionModal = ({ ...props }) => {
       );
 
       setTxDetails(approve.data);
-      console.log("not approved");
       return;
     }
     const tx = await axios.get(
@@ -130,7 +127,6 @@ const WalletActionModal = ({ ...props }) => {
   }, [txDetails]);
 
   useEffect(() => {
-    console.log({ swapValues });
     const { setValue } = swapForm;
     if (swapValues.from && swapValues.fromToken) {
       setValue("to", swapValues.from * 2);
