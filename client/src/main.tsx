@@ -15,15 +15,15 @@ if (!PUBLISHABLE_KEY) {
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <ThemeProvider>
-    <Provider store={store}>
-      <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+  <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+    <ThemeProvider>
+      <Provider store={store}>
         <Web3Provider>
           <BrowserRouter>
             <App />
           </BrowserRouter>
         </Web3Provider>
-      </ClerkProvider>
-    </Provider>
-  </ThemeProvider>
+      </Provider>
+    </ThemeProvider>
+  </ClerkProvider>
 );

@@ -29,11 +29,7 @@ app.use(express.json());
 app.post("/eth", infuraProxy);
 app.use(
   "/",
-  ClerkExpressWithAuth({
-    onError: (error) => {
-      console.log({ error });
-    },
-  }),
+  ClerkExpressWithAuth(),
   async (req, res, next) => {
     if (!req.auth.userId) {
       res.redirect(process.env.CLIENT_URL || "");
