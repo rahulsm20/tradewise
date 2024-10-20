@@ -3,80 +3,81 @@ import Image from "../image";
 import { Card } from "../../@/components/ui/card";
 
 const SectionTitle = ({ children }: { children: React.ReactNode }) => {
-  return <h2 className="text-3xl md:text-7xl">{children}</h2>;
+  return <h2 className="text-3xl md:text-4xl">{children}</h2>;
 };
 
 const Hero = () => {
   return (
     <div className="flex flex-col gap-10 px-10 mx-10 items-center justify-center body">
       <LandingHeader />
-      <Card>
-        <section className="flex flex-col md:flex-row items-center p-5 md:p-10 gap-5">
-          <SectionTitle>Analyse your investments</SectionTitle>
-          <Image
-            src="stock_dark.PNG"
-            className="w-full md:w-1/2 rounded-lg hidden dark:block "
-          />
-          <Image
-            src="stock_light.PNG"
-            className="w-full md:w-1/2 rounded-lg dark:hidden"
-          />
-        </section>
-      </Card>
-      <Card>
-        <section className="flex flex-col-reverse md:flex-row items-center p-5 md:p-10 gap-5">
-          <Image
-            src="web3_dark.PNG"
-            className="w-full md:w-1/2 rounded-lg hidden dark:block "
-          />
-          <Image
-            src="web3_light.PNG"
-            className="w-full md:w-1/2 rounded-lg dark:hidden"
-          />
-          <SectionTitle>
-            {" "}
-            Make and track web3 transactions with ease
-          </SectionTitle>
-        </section>
-      </Card>
-      <Card>
-        <section className="flex flex-col md:flex-row items-center  p-5 md:p-10 gap-10">
-          <SectionTitle>
-            Analyse your expenses with the help of visualizations
-          </SectionTitle>
-          <div className="flex flex-row flex-wrap gap-10 w-full md:w-1/2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-start">
+        <Card>
+          <section className="flex flex-col items-center p-5 md:p-10 gap-5">
+            <SectionTitle>Analyse your investments</SectionTitle>
             <Image
-              src="expense_dark.PNG"
-              className="w-full rounded-lg hidden dark:block "
+              src="stock_dark.PNG"
+              className="w-full  rounded-lg hidden dark:block "
             />
             <Image
-              src="expense2_dark.PNG"
-              className="w-full rounded-lg hidden dark:block "
+              src="stock_light.PNG"
+              className="w-full  rounded-lg dark:hidden"
+            />
+          </section>
+        </Card>
+        <Card>
+          <section className="flex flex-col items-center p-5 md:p-10 gap-5">
+            <SectionTitle>
+              Make and track web3 transactions with ease
+            </SectionTitle>
+            <Image
+              src="web3_dark.PNG"
+              className="w-full  rounded-lg hidden dark:block "
             />
             <Image
-              src="expense_light.PNG"
+              src="web3_light.PNG"
               className="w-full rounded-lg dark:hidden"
             />
+          </section>
+        </Card>
+        <Card>
+          <section className="flex flex-col items-center  p-5 md:p-10 gap-10">
+            <SectionTitle>
+              Analyse your expenses with the help of visualizations
+            </SectionTitle>
+            <div className="grid grid-cols-2 gap-10 w-full">
+              <Image
+                src="expense_dark.PNG"
+                className="w-full rounded-lg hidden dark:block "
+              />
+              <Image
+                src="expense2_dark.PNG"
+                className="w-full rounded-lg hidden dark:block "
+              />
+              <Image
+                src="expense_light.PNG"
+                className="w-full rounded-lg dark:hidden"
+              />
+              <Image
+                src="expense2_light.PNG"
+                className="w-full rounded-lg dark:hidden"
+              />
+            </div>
+          </section>
+        </Card>
+        <Card>
+          <section className="flex flex-col items-center p-5 md:p-10 gap-5">
+            <SectionTitle> Keep up on the latest news and trends</SectionTitle>
             <Image
-              src="expense2_light.PNG"
+              src="home_dark.PNG"
+              className="w-full rounded-lg hidden dark:block"
+            />
+            <Image
+              src="home_light.PNG"
               className="w-full rounded-lg dark:hidden"
             />
-          </div>
-        </section>
-      </Card>
-      <Card>
-        <section className="flex flex-col-reverse md:flex-row items-center p-5 md:p-10 gap-5">
-          <Image
-            src="home_dark.PNG"
-            className="w-full md:w-1/2 rounded-lg hidden dark:block"
-          />
-          <Image
-            src="home_light.PNG"
-            className="w-full md:w-1/2 rounded-lg dark:hidden"
-          />
-          <SectionTitle> Keep up on the latest news and trends</SectionTitle>
-        </section>
-      </Card>
+          </section>
+        </Card>
+      </div>
     </div>
   );
 };
