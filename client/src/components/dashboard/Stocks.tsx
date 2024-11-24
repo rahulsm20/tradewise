@@ -22,8 +22,8 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from "../../@/components/ui/form";
-import { addUpdateUserDetails, getStockData, searchStock } from "../../api";
+} from "@/components/ui/form";
+import { apiService } from "../../api";
 import { setStocks, setTickers } from "../../store/stocksSlice";
 import { chartColors } from "../../utils/constants";
 import { ChartData, SymbolData } from "../../utils/types";
@@ -52,8 +52,8 @@ const Stocks = ({ tickers, data = [], loading = true }: StockProps) => {
   const submitStock: SubmitHandler<FieldValues> = async ({ stock }) => {
     try {
       setStocksLoading(true);
-      await addUpdateUserDetails({ stock });
-      const fetched = await getStockData();
+      await apiService.addUpdateUserDetails({ stock });
+      const fetched = await apiService.getStockData();
       if (fetched) {
         const { stockData, tickers } = fetched;
         dispatch(setStocks(stockData));
@@ -84,7 +84,7 @@ const Stocks = ({ tickers, data = [], loading = true }: StockProps) => {
   useEffect(() => {
     const fetchStockOptions = async () => {
       const query = stockQuery ? stockQuery : "a";
-      const stockData = await searchStock(query);
+      const stockData = await apiService.searchStock(query);
       const options = stockData.map(
         ({ ticker, name }: { ticker: string; name: string }) => ({
           label: `${name} (${ticker})`,
@@ -136,7 +136,7 @@ const Stocks = ({ tickers, data = [], loading = true }: StockProps) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { stockData = [], tickers = [] } = await getStockData();
+      const { stockData = [], tickers = [] } = await apiService.getStockData();
       dispatch(setStocks(stockData));
       dispatch(setTickers(tickers));
     };

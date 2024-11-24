@@ -22,8 +22,8 @@ import {
   XAxis,
 } from "recharts";
 import { z } from "zod";
-import { Button } from "../../@/components/ui/button";
-import { Calendar } from "../../@/components/ui/calendar";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Card,
   CardContent,
@@ -31,20 +31,20 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../../@/components/ui/card";
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "../../@/components/ui/chart";
+} from "@/components/ui/chart";
 import {
   assetColumns,
   debtColumns,
   expenditureColumns,
   incomeColumns,
-} from "../../@/components/ui/columns";
-import { DataTable } from "../../@/components/ui/data-table";
+} from "@/components/ui/columns";
+import { DataTable } from "@/components/ui/data-table";
 import {
   Form,
   FormControl,
@@ -52,36 +52,34 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../@/components/ui/form";
+} from "@/components/ui/form";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "../../@/components/ui/popover";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "../../@/components/ui/tabs";
-import { cn, formatToLocalCurrency } from "../../@/lib/utils";
-import { addUpdateExpenseItem, getExpenseData } from "../../api";
-import { setExpenseData } from "../../store/expensesSlice";
-import { AssetType } from "../../types";
-import { chartColors } from "../../utils/constants";
-import { StoreRootState } from "../../utils/types";
-import Modal from "../Modal";
-import TWInput from "../TWInput";
+} from "@/components/ui/popover";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn, formatToLocalCurrency } from "../../../lib/utils";
+import { apiService } from "../../../api";
+import { setExpenseData } from "../../../store/expensesSlice";
+import { AssetType } from "../../../types";
+import { chartColors } from "../../../utils/constants";
+import { StoreRootState } from "../../../utils/types";
+import Loading from "../../Loading";
+import Modal from "../../Modal";
+import TWInput from "../../TWInput";
 
 const Expenses = () => {
   const expenseData = useSelector(
     (state: StoreRootState) => state.expenses.expenseData
   );
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
 
   const fetchData = async () => {
-    const response = await getExpenseData();
+    setLoading(true);
+    const response = await apiService.getExpenseData();
     const { assets, incomes, expenditures, debts } = response.user;
     const totalAssetsValue = assets.reduce(
       (acc: number, curr: { name: string; value: number }) => acc + curr.value,
@@ -107,11 +105,14 @@ const Expenses = () => {
         totalExpenditure,
       })
     );
+    setLoading(false);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  if (loading) return <Loading />;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -424,7 +425,7 @@ const AddAssetModal = ({ fetchData }: { fetchData: () => Promise<void> }) => {
   const onSubmit = async (asset: FieldValues) => {
     try {
       setLoading(true);
-      await addUpdateExpenseItem({ asset });
+      await apiService.addUpdateExpenseItem({ asset });
       await fetchData();
       setLoading(false);
     } catch (err) {
@@ -531,7 +532,7 @@ const AddIncomeModal = ({ fetchData }: { fetchData: () => Promise<void> }) => {
   const onSubmit = async (income: FieldValues) => {
     try {
       setLoading(true);
-      await addUpdateExpenseItem({ income });
+      await apiService.addUpdateExpenseItem({ income });
       await fetchData();
       setModalOpen(false);
       setLoading(false);
@@ -792,7 +793,7 @@ const AddExpenditureModal = ({
   const onSubmit = async (expenditure: FieldValues) => {
     try {
       setLoading(true);
-      await addUpdateExpenseItem({ expenditure });
+      await apiService.addUpdateExpenseItem({ expenditure });
       await fetchData();
       setLoading(false);
       setModalOpen(false);
@@ -926,7 +927,7 @@ const AddDebtModal = ({ fetchData }: { fetchData: () => Promise<void> }) => {
   const onSubmit = async (debt: FieldValues) => {
     try {
       setLoading(true);
-      await addUpdateExpenseItem({ debt });
+      await apiService.addUpdateExpenseItem({ debt });
       await fetchData();
       setModalOpen(false);
       setLoading(false);

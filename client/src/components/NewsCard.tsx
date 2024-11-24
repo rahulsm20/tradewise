@@ -6,7 +6,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../@/components/ui/card";
+} from "@/components/ui/card";
 import { Suspense } from "react";
 const NewsCard = ({ article }: { article: NewsArticleType }) => {
   return (

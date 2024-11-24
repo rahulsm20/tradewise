@@ -1,10 +1,6 @@
-import { createClerkClient } from "@clerk/clerk-sdk-node";
+import { createClerkClient } from "@clerk/backend";
 
-const clerkClient = createClerkClient({
-  secretKey: process.env.CLIENT_SECRET_KEY,
+export const clerkClient = createClerkClient({
+  secretKey: process.env.CLERK_SECRET_KEY,
+  publishableKey: process.env.CLERK_PUBLISHABLE_KEY,
 });
-
-export const clientList = async () => {
-  const users = await clerkClient.clients.getClientList();
-  return users;
-};

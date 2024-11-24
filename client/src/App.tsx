@@ -1,4 +1,4 @@
-import { useUser } from "@clerk/clerk-react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { RotateCw } from "lucide-react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
@@ -8,14 +8,14 @@ import Landing from "./pages/Landing";
 import Layout from "./pages/Layout";
 
 function App() {
-  const { user, isLoaded } = useUser();
-  if (!isLoaded)
+  const { user: authUser, isLoading } = useAuth0();
+  if (isLoading)
     return (
       <div className="flex items-center justify-center m-10 animate-spin">
         <RotateCw />
       </div>
     );
-  else if (user) {
+  else if (authUser) {
     return (
       <Routes>
         <Route path="/" element={<Home />} />
@@ -23,7 +23,7 @@ function App() {
         <Route path="/*" element={<Layout />} />
       </Routes>
     );
-  } else if (isLoaded) {
+  } else if (!isLoading) {
     return (
       <Routes>
         <Route path="*" element={<Landing />} />

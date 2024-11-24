@@ -34,7 +34,7 @@ export const addUpdateAsset = async ({
         type,
         user: {
           connect: {
-            clerkId: req.auth.userId,
+            userId: req.auth?.payload.sub,
           },
         },
       },
@@ -79,7 +79,7 @@ export const addUpdateDebt = async ({
         interestRate,
         user: {
           connect: {
-            clerkId: req.auth.userId,
+            userId: req.auth?.payload.sub,
           },
         },
       },
@@ -122,7 +122,7 @@ export const addUpdateIncome = async ({
         date,
         user: {
           connect: {
-            clerkId: req.auth.userId,
+            userId: req.auth?.payload.sub,
           },
         },
       },
@@ -166,7 +166,7 @@ export const addUpdateExpenditure = async ({
         date,
         user: {
           connect: {
-            clerkId: req.auth.userId,
+            userId: req.auth?.payload.sub,
           },
         },
       },

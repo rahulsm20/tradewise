@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { parseEther } from "viem";
@@ -11,8 +10,9 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from "../../@/components/ui/form";
-import { Separator } from "../../@/components/ui/separator";
+} from "@/components/ui/form";
+import { Separator } from "@/components/ui/separator";
+import { apiService } from "../../api";
 import Modal from "../Modal";
 import TWInput from "../TWInput";
 import TWSelect from "../TWSelect";
@@ -21,8 +21,6 @@ import tokenList from "../tokenList.json";
 const WalletActionModal = ({ ...props }) => {
   const { sendTransaction } = useSendTransaction();
   const [loading, setLoading] = useState(false);
-  // const [prices, setPrices] = useState([]);
-  const [txDetails, setTxDetails] = useState({});
   const sendFormSchema = z.object({
     to: z.string().min(42, {
       message: "Wallet address must be 42 characters long",
@@ -72,7 +70,11 @@ const WalletActionModal = ({ ...props }) => {
   const onSubmit: SubmitHandler<FieldValues> = async ({ to, value }) => {
     setLoading(true);
     try {
-      sendTransaction({ to, value: parseEther(`${value}`) });
+      if (props.title == "Send") {
+        sendTransaction({ to, value: parseEther(`${value}`) });
+      } else {
+        await sendSwap();
+      }
     } catch (e) {
       console.log({ e });
     } finally {
@@ -80,56 +82,43 @@ const WalletActionModal = ({ ...props }) => {
     }
   };
 
-  // async function fetchPrices(one: string, two: string) {
-  //   const res = await axios.get(`http://localhost:3001/tokenPrice`, {
-  //     params: { addressOne: one, addressTwo: two },
-  //   });
-
-  //   setPrices(res.data);
-  // }
   const tokenOne = swapForm.watch("fromToken");
   const tokenOneAmount = swapForm.watch("from");
   const tokenTwo = swapForm.watch("toToken");
 
-  async function fetchDexSwap() {
-    const allowance = await axios.get(
-      `https://api.1inch.io/v5.0/1/approve/allowance?tokenAddress=${tokenOne}&walletAddress=${props.address}`
-    );
-
-    if (allowance.data.allowance === "0") {
-      const approve = await axios.get(
-        `https://api.1inch.io/v5.0/1/approve/transaction?tokenAddress=${tokenOne}`
-      );
-
-      setTxDetails(approve.data);
-      return;
+  async function sendSwap() {
+    try {
+      const tx = await apiService.sendSwap({
+        tokenOne,
+        tokenTwo,
+        tokenOneAmount,
+        address: props.address,
+      });
+      sendTransaction({
+        to: tx.data.tx.to,
+        value: tx.data.tx.value,
+        data: tx.data.tx.data,
+      });
+    } catch (err) {
+      console.log({ err });
     }
-    const tx = await axios.get(
-      `https://api.1inch.io/v5.0/1/swap?fromTokenAddress=${tokenOne}&toTokenAddress=${tokenTwo}&amount=${tokenOneAmount.padEnd(
-        tokenOne.decimals + tokenOneAmount.length,
-        "0"
-      )}&fromAddress=${props.address}`
-    );
-
-    // let decimals = Number(`1E${tokenTwo.decimals}`);
-    // console.log((Number(tx.data.toTokenAmount) / decimals).toFixed(2));
-
-    setTxDetails(tx.data.tx);
   }
 
-  useEffect(() => {
-    // fetchPrices(tokenList[0].address, tokenList[1].address);
-    fetchDexSwap();
-  }, [tokenOne, tokenOneAmount, tokenTwo]);
-
-  useEffect(() => {
-    console.log({ txDetails });
-  }, [txDetails]);
-
-  useEffect(() => {
+  const fetchSwapPrice = async () => {
     const { setValue } = swapForm;
-    if (swapValues.from && swapValues.fromToken) {
-      setValue("to", swapValues.from * 2);
+
+    const tokenPrice = await apiService.getTokenPrice({
+      tokenOne,
+      tokenTwo,
+      tokenOneAmount,
+    });
+    setValue("to", tokenPrice.dstAmount);
+    return tokenPrice;
+  };
+
+  useEffect(() => {
+    if (swapValues.from && swapValues.fromToken && swapValues.toToken) {
+      fetchSwapPrice();
     }
   }, [swapValues.from]);
 
@@ -137,7 +126,7 @@ const WalletActionModal = ({ ...props }) => {
     <Modal
       onOk={async () => {
         try {
-          sendForm.handleSubmit(onSubmit)();
+          onSubmit(sendForm.getValues());
         } catch (err) {
           console.log({ err });
         }

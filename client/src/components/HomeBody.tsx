@@ -1,6 +1,6 @@
 import { RotateCw, Search } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
-import { Input } from "../@/components/ui/input";
+import { Input } from "@/components/ui/input";
 import {
   Pagination,
   PaginationContent,
@@ -8,8 +8,8 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "../@/components/ui/pagination";
-import { getNews } from "../api";
+} from "@/components/ui/pagination";
+import { apiService } from "../api";
 import NewsCard from "../components/NewsCard";
 import { NewsArticleType } from "../types";
 
@@ -24,7 +24,7 @@ const HomeBody = () => {
     try {
       setLoading(true);
       const fetchNews = async () => {
-        const response = await getNews(query);
+        const response = await apiService.getNews(query);
         if (response) {
           setNews(response);
           setTotalPages(Math.ceil(response.length / pageSize));
@@ -41,7 +41,7 @@ const HomeBody = () => {
   const submitForm = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const response = await getNews(query);
+    const response = await apiService.getNews(query);
     setLoading(false);
     setNews(response);
   };
@@ -57,7 +57,10 @@ const HomeBody = () => {
 
   return (
     <div className="flex flex-col gap-5 items-center m-auto mt-10">
-      <form className="flex relative items-center border" onSubmit={submitForm}>
+      <form
+        className="flex relative items-center border rounded-xl"
+        onSubmit={submitForm}
+      >
         <Input
           placeholder="Search anything..."
           className="border-0 focus:border-0"

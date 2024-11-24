@@ -5,16 +5,11 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "../@/components/ui/tabs";
-import { addUpdateUserDetails, getStockData } from "../api";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { apiService } from "../api";
 import { setStocks, setTickers } from "../store/stocksSlice";
 import { StoreRootState } from "../utils/types";
-import Expenses from "./dashboard/Expenses";
+import Expenses from "./dashboard/expenses/index";
 import Stocks from "./dashboard/Stocks";
 import Wallet from "./dashboard/Wallet";
 
@@ -55,8 +50,8 @@ const DashboardBody = () => {
   }) => {
     try {
       setLoading(true);
-      await addUpdateUserDetails({ stock, walletAddress });
-      const fetched = await getStockData();
+      await apiService.addUpdateUserDetails({ stock, walletAddress });
+      const fetched = await apiService.getStockData();
       if (fetched) {
         const { stockData, tickers } = fetched;
         dispatch(setStocks(stockData));

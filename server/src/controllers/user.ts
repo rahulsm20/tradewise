@@ -59,7 +59,7 @@ export const addUpdateUserDetails = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "No details to update" });
     }
     const user = await prisma.user.update({
-      where: { clerkId: req.auth.userId },
+      where: { userId: req.auth?.payload.sub },
       data: updateDetails,
       include: {
         stocks: true,
@@ -77,7 +77,7 @@ export const addUpdateUserDetails = async (req: Request, res: Response) => {
 export const getUserDetails = async (req: Request, res: Response) => {
   try {
     const user = await prisma.user.findUnique({
-      where: { id: req.auth.userId },
+      where: { userId: req.auth?.payload.sub },
       include: {
         stocks: true,
       },
@@ -91,9 +91,10 @@ export const getUserDetails = async (req: Request, res: Response) => {
 
 export const fetchUserDetails = async (req: Request, res: Response) => {
   try {
-    const userId = req.auth.userId;
+    const userId = req.auth?.payload.sub;
+
     const user = await prisma.user.findUnique({
-      where: { clerkId: userId },
+      where: { userId },
       include: {
         stocks: true,
         assets: true,
@@ -117,7 +118,7 @@ export const fetchStockData = async (req: Request, res: Response) => {
   }
   try {
     const user = await prisma.user.findUnique({
-      where: { clerkId: req.auth.userId },
+      where: { userId: req.auth?.payload.sub },
       include: {
         stocks: true,
       },
@@ -187,7 +188,7 @@ export const fetchStockData = async (req: Request, res: Response) => {
 // export const fetchWalletData = async (req: Request, res: Response) => {
 //   try {
 //     const user = await prisma.user.findUnique({
-//       where: { clerkId: req.auth.userId },
+//       where: { clerkId: req.auth.payload.sub },
 //       include: {
 //         stocks: true,
 //       },
@@ -260,7 +261,7 @@ export const fetchStockData = async (req: Request, res: Response) => {
 //     const { balance } = req.body;
 
 //     const user = await prisma.user.findUnique({
-//       where: { clerkId: req.auth.userId },
+//       where: { clerkId: req.auth.payload.sub },
 //       include: {
 //         wallet: true,
 //       },
@@ -300,7 +301,7 @@ export const getTransactions = async (req: Request, res: Response) => {
   const { address } = req.body;
   try {
     const user = await prisma.user.findUnique({
-      where: { clerkId: req.auth.userId },
+      where: { userId: req.auth?.payload.sub },
     });
     if (user) {
       if (address !== "") {
@@ -345,7 +346,7 @@ export const addUpdateExpenseData = async (req: Request, res: Response) => {
   try {
     const { income, expenditure, debt, asset } = req.body;
     const user = await prisma.user.findUnique({
-      where: { clerkId: req.auth.userId },
+      where: { userId: req.auth?.payload.sub },
     });
     if (user) {
       if (expenditure) {
@@ -401,7 +402,7 @@ export const addUpdateExpenseData = async (req: Request, res: Response) => {
 export const getExpenseData = async (req: Request, res: Response) => {
   try {
     const user = await prisma.user.findUnique({
-      where: { clerkId: req.auth.userId },
+      where: { userId: req.auth?.payload.sub },
       include: {
         assets: true,
         debts: true,

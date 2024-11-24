@@ -15,8 +15,7 @@ datasource db {
 
 model User {
   id           String        @id @default(cuid())
-  email        String
-  clerkId      String        @unique
+  userId       String?       @unique
   name         String?
   assets       Asset[]
   stocks       Stock[]
@@ -25,8 +24,6 @@ model User {
   debts        Debt[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
-
-  @@index([clerkId], name: "clerkId")
 }
 
 model Stock {

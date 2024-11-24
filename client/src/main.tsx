@@ -1,13 +1,13 @@
+import { Auth0Provider } from "@auth0/auth0-react";
 import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import { ThemeProvider } from "./components/theme-provider.tsx";
-import { ClerkProvider } from "@clerk/clerk-react";
-import { Provider } from "react-redux";
 
+import { Web3Provider } from "./components/WebProvider.tsx";
 import "./index.css";
 import store from "./store/index.ts";
-import { Web3Provider } from "./components/WebProvider.tsx";
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 if (!PUBLISHABLE_KEY) {
@@ -15,7 +15,14 @@ if (!PUBLISHABLE_KEY) {
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+  <Auth0Provider
+    domain={import.meta.env.VITE_AUTH0_DOMAIN}
+    clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
+    authorizationParams={{
+      redirect_uri: window.location.origin,
+      audience: "http://localhost:3000",
+    }}
+  >
     <ThemeProvider>
       <Provider store={store}>
         <Web3Provider>
@@ -25,5 +32,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         </Web3Provider>
       </Provider>
     </ThemeProvider>
-  </ClerkProvider>
+  </Auth0Provider>
 );

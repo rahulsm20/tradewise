@@ -18,11 +18,11 @@ import {
   ValueType,
 } from "recharts/types/component/DefaultTooltipContent";
 import { useAccount, useBalance } from "wagmi";
-import { Button } from "../../@/components/ui/button";
-import { Columns } from "../../@/components/ui/columns";
-import { DataTable } from "../../@/components/ui/data-table";
-import { formatToLocalCurrency, weiToEth } from "../../@/lib/utils";
-import { getTransactions } from "../../api";
+import { Button } from "@/components/ui/button";
+import { Columns } from "@/components/ui/columns";
+import { DataTable } from "@/components/ui/data-table";
+import { formatToLocalCurrency, weiToEth } from "../../lib/utils";
+import { apiService } from "../../api";
 import { BalanceChartDataType } from "../../types";
 import { web3ActionDescriptions } from "../../utils/constants";
 import { StoreRootState } from "../../utils/types";
@@ -63,7 +63,7 @@ const Wallet = () => {
     const fetchWalletData = async () => {
       try {
         setLoading(true);
-        const transactions = await getTransactions(addresses[0]);
+        const transactions = await apiService.getTransactions(addresses[0]);
         setTransactions(transactions);
         const chartData = [
           {

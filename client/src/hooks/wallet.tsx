@@ -3,7 +3,7 @@ import { useAccount, useBalance } from "wagmi";
 import { BalanceChartDataType } from "../types";
 import { getTransactions } from "../api";
 import dayjs from "dayjs";
-import { weiToEth } from "../@/lib/utils";
+import { weiToEth } from "../lib/utils";
 
 export const useWallet = () => {
   const { addresses = [], isConnected } = useAccount();

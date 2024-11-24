@@ -1,48 +1,43 @@
-import {
-  clerkClient,
-  ClerkExpressRequireAuth,
-  ClerkExpressWithAuth,
-  StrictAuthProp,
-} from "@clerk/clerk-sdk-node";
 import cors from "cors";
 import express from "express";
+import { auth } from "express-oauth2-jwt-bearer";
 import prisma from "../prisma/client";
 import { infuraProxy } from "./controllers/user";
 import router from "./routes";
+
 const app = express();
 require("dotenv").config;
 
-declare global {
-  namespace Express {
-    interface Request extends StrictAuthProp {}
-  }
-}
+const jwtCheck = auth({
+  audience: process.env.AUTH0_AUDIENCE,
+  issuerBaseURL: process.env.AUTH0_BASE_URL,
+  tokenSigningAlg: "RS256",
+});
 
+app.use(express.json());
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: [process.env.CLIENT_URL || "", "https ://tradewise.vercel.app"],
     credentials: true,
   })
 );
-app.use(express.json());
 
 app.post("/eth", infuraProxy);
+app.use(jwtCheck);
+
 app.use(
   "/",
-  ClerkExpressWithAuth(),
   async (req, res, next) => {
-    if (!req.auth.userId) {
+    if (!req.auth) {
       res.redirect(process.env.CLIENT_URL || "");
     } else {
-      const user = await clerkClient.users.getUser(req.auth.userId);
       const userExists = await prisma.user.findUnique({
-        where: { clerkId: req.auth.userId },
+        where: { userId: req.auth.payload.sub },
       });
       if (!userExists) {
         await prisma.user.create({
           data: {
-            clerkId: user.id,
-            email: user.emailAddresses[0].emailAddress,
+            userId: req.auth.payload.sub,
           },
         });
       }

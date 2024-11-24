@@ -1,9 +1,8 @@
-import { SignInButton, SignUpButton } from "@clerk/clerk-react";
 import { HandCoins } from "lucide-react";
 import { ModeToggle } from "../components/dark-mode-toggle";
 import Hero from "../components/landing/Hero";
+import LoginButton from "../components/login";
 import TWFooter from "../components/TWFooter";
-import { Button } from "../@/components/ui/button";
 
 const Landing = () => {
   return (
@@ -14,16 +13,7 @@ const Landing = () => {
           Tradewise
         </p>
         <div className="flex gap-5">
-          <SignInButton>
-            <Button variant="outline" className="rounded-lg">
-              Sign In
-            </Button>
-          </SignInButton>
-          <SignUpButton>
-            <Button variant="outline" className="rounded-lg">
-              Sign Up
-            </Button>
-          </SignUpButton>
+          <LoginButton />
           <ModeToggle />
         </div>
       </div>

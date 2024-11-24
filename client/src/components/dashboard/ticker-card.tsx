@@ -1,11 +1,11 @@
 import { ChevronDown, ChevronUp, XCircle } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { apiService } from "../../api";
+import { setStocks, setTickers } from "../../store/stocksSlice";
 import { StoreRootState } from "../../utils/types";
 import ConfirmationModal from "../ConfirmationModal";
-import { deleteStock, getStockData } from "../../api";
-import { setStocks, setTickers } from "../../store/stocksSlice";
-import { Badge } from "../../@/components/ui/badge";
-import { Button } from "../../@/components/ui/button";
 
 type tickerCardProps = {
   stocksLoading: boolean;
@@ -18,8 +18,8 @@ const TickerCards = ({ stocksLoading, setStocksLoading }: tickerCardProps) => {
   const deleteStockHandler = async (stockId: string) => {
     try {
       setStocksLoading(true);
-      await deleteStock(stockId);
-      const fetched = await getStockData();
+      await apiService.deleteStock(stockId);
+      const fetched = await apiService.getStockData();
       if (fetched) {
         const { stockData, tickers } = fetched;
         dispatch(setStocks(stockData));
