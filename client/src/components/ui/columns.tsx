@@ -14,7 +14,7 @@ import {
   ExpenditureType,
   IncomeType,
   TransactionType,
-} from "../../../types";
+} from "../../types";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "./button";
 

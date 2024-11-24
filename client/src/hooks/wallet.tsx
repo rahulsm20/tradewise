@@ -1,9 +1,9 @@
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useAccount, useBalance } from "wagmi";
-import { BalanceChartDataType } from "../types";
-import { getTransactions } from "../api";
-import dayjs from "dayjs";
+import { apiService } from "../api";
 import { weiToEth } from "../lib/utils";
+import { BalanceChartDataType } from "../types";
 
 export const useWallet = () => {
   const { addresses = [], isConnected } = useAccount();
@@ -17,7 +17,7 @@ export const useWallet = () => {
     const fetchWalletData = async () => {
       try {
         setLoading(true);
-        const transactions = await getTransactions(addresses[0]);
+        const transactions = await apiService.getTransactions(addresses[0]);
         const chartData = [
           {
             date: dayjs().format("MMM YYYY"),
