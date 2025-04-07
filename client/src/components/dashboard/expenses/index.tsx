@@ -1,27 +1,3 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
-import dayjs from "dayjs";
-import {
-  CalendarIcon,
-  ChevronLeft,
-  ChevronRight,
-  Plus,
-  TrendingUp,
-} from "lucide-react";
-import { cloneElement, useEffect, useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Label,
-  Legend,
-  Pie,
-  PieChart,
-  XAxis,
-} from "recharts";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -59,8 +35,26 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { cn, formatToLocalCurrency } from "../../../lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
+import dayjs from "dayjs";
+import { CalendarIcon, ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { cloneElement, useEffect, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Label,
+  Legend,
+  Pie,
+  PieChart,
+  XAxis,
+} from "recharts";
+import { z } from "zod";
 import { apiService } from "../../../api";
+import { cn, formatToLocalCurrency } from "../../../lib/utils";
 import { setExpenseData } from "../../../store/expensesSlice";
 import { AssetType } from "../../../types";
 import { chartColors } from "../../../utils/constants";
@@ -73,7 +67,7 @@ const Expenses = () => {
   const expenseData = useSelector(
     (state: StoreRootState) => state.expenses.expenseData
   );
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -757,14 +751,14 @@ const IncomeExpenditureChart = () => {
           </BarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
+      {/* <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
           Showing total visitors for the last 6 months
         </div>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   );
 };

@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
+import "dotenv/config";
+import { BlockTag, EtherscanProvider, Networkish } from "ethers"; //^v6
 import { createClient } from "redis";
 import Web3 from "web3";
 import { GroupedData, TickerData } from "./types";
-import { EtherscanProvider, Networkish, BlockTag } from "ethers"; //^v6
-
 export const redisClient = createClient({
   url: process.env.REDIS_URL,
 });

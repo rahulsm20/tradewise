@@ -31,6 +31,7 @@
   ```
   git clone https://github.com/rahulsm20/tradewise
   ```
+- Setup env variables as described in [client/.env.example](client/.env.example) and [server/.env.example](server/.env.example)
 - Setup client
   - cd into folder
     ```

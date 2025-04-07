@@ -1,5 +1,3 @@
-import dayjs from "dayjs";
-import { NewsArticleType } from "../types";
 import {
   Card,
   CardContent,
@@ -7,7 +5,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import dayjs from "dayjs";
 import { Suspense } from "react";
+import { NewsArticleType } from "../types";
 const NewsCard = ({ article }: { article: NewsArticleType }) => {
   return (
     <Suspense fallback={<div>Loading...</div>}>

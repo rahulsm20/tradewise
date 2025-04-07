@@ -8,11 +8,6 @@ import { ThemeProvider } from "./components/theme-provider.tsx";
 import { Web3Provider } from "./components/WebProvider.tsx";
 import "./index.css";
 import store from "./store/index.ts";
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-
-if (!PUBLISHABLE_KEY) {
-  throw new Error("Missing Publishable Key");
-}
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Auth0Provider

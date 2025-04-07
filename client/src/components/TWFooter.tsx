@@ -8,7 +8,7 @@ const TWFooter = () => {
     },
     {
       name: "Twitter",
-      url: "https://twitter.com/",
+      url: "https://twitter.com/boringBroccoli",
     },
   ];
 

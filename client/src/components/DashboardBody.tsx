@@ -1,3 +1,4 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RotateCw } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -5,7 +6,6 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { apiService } from "../api";
 import { setStocks, setTickers } from "../store/stocksSlice";
 import { StoreRootState } from "../utils/types";

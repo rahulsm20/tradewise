@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus, RotateCw } from "lucide-react";
+import { Plus } from "lucide-react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import {
   Area,
@@ -11,10 +11,6 @@ import {
   YAxis,
 } from "recharts";
 
-import dayjs from "dayjs";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -23,10 +19,15 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import dayjs from "dayjs";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { z } from "zod";
 import { apiService } from "../../api";
 import { setStocks, setTickers } from "../../store/stocksSlice";
 import { chartColors } from "../../utils/constants";
 import { ChartData, SymbolData } from "../../utils/types";
+import Loading from "../Loading";
 import { TWCombobox } from "../TWCombobox";
 import TickerCards from "./ticker-card";
 
@@ -144,11 +145,7 @@ const Stocks = ({ tickers, data = [], loading = true }: StockProps) => {
   }, []);
 
   if (loading || !tickers || stocksLoading) {
-    return (
-      <div>
-        <RotateCw className="animate-spin" />
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
@@ -190,9 +187,7 @@ const Stocks = ({ tickers, data = [], loading = true }: StockProps) => {
         />
       </div>
       {loading || stocksLoading ? (
-        <div>
-          <RotateCw className="animate-spin" />
-        </div>
+        <Loading />
       ) : (
         <section className="flex items-center justify-center w-full">
           <ResponsiveContainer width={"100%"} height={400}>

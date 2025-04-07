@@ -1,5 +1,3 @@
-import { RotateCw, Search } from "lucide-react";
-import { FormEvent, useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import {
   Pagination,
@@ -9,13 +7,16 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { Search } from "lucide-react";
+import { FormEvent, useEffect, useState } from "react";
 import { apiService } from "../api";
 import NewsCard from "../components/NewsCard";
 import { NewsArticleType } from "../types";
+import Loading from "./Loading";
 
 const HomeBody = () => {
   const [news, setNews] = useState([]);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("web3");
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -58,7 +59,7 @@ const HomeBody = () => {
   return (
     <div className="flex flex-col gap-5 items-center m-auto mt-10">
       <form
-        className="flex relative items-center border rounded-xl"
+        className="flex relative items-center border rounded-[--radius]"
         onSubmit={submitForm}
       >
         <Input
@@ -72,9 +73,7 @@ const HomeBody = () => {
         </div>
       </form>
       {loading || displayedNews.length === 0 ? (
-        <div className="flex justify-center items-center">
-          <RotateCw className="animate-spin" />
-        </div>
+        <Loading />
       ) : (
         <div className="flex flex-col gap-5 p-5 w-[95%]">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
@@ -98,7 +97,7 @@ const HomeBody = () => {
                     href="#"
                     onClick={() => handlePageChange(index + 1)}
                     className={
-                      page === index + 1 ? "bg-slate-300 dark:bg-zinc-700" : ""
+                      page === index + 1 ? "bg-slate-200 dark:bg-zinc-700" : ""
                     }
                   >
                     {index + 1}
