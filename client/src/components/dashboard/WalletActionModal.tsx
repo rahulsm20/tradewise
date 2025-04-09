@@ -1,9 +1,3 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { parseEther } from "viem";
-import { useSendTransaction } from "wagmi";
-import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -12,6 +6,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosError } from "axios";
+import { useEffect, useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { parseEther } from "viem";
+import { useSendTransaction } from "wagmi";
+import { z } from "zod";
 import { apiService } from "../../api";
 import Modal from "../Modal";
 import TWInput from "../TWInput";
@@ -94,13 +95,34 @@ const WalletActionModal = ({ ...props }) => {
         tokenOneAmount,
         address: props.address,
       });
+
       sendTransaction({
         to: tx.data.tx.to,
         value: tx.data.tx.value,
         data: tx.data.tx.data,
       });
     } catch (err) {
-      console.log({ err });
+      console.log(err, "error in sendSwap");
+      if (err instanceof AxiosError) {
+        if (props?.setErrorSuccessModal) {
+          props.setErrorSuccessModal({
+            modalOpen: true,
+            title: "Error",
+            trigger: null,
+            description: err?.response?.data.message,
+            cancelText: "Dismiss",
+            onCancel: () => {
+              props.setErrorSuccessModal({
+                modalOpen: false,
+                title: "",
+                trigger: null,
+                description: "",
+                okText: "",
+              });
+            },
+          });
+        }
+      }
     }
   }
 
@@ -120,7 +142,7 @@ const WalletActionModal = ({ ...props }) => {
     if (swapValues.from && swapValues.fromToken && swapValues.toToken) {
       fetchSwapPrice();
     }
-  }, [swapValues.from]);
+  }, [swapValues.from, swapValues.fromToken, swapValues.toToken]);
 
   return (
     <Modal

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Request, Response } from "express";
 
 export const swapController = async (req: Request, res: Response) => {
@@ -21,7 +21,10 @@ export const swapController = async (req: Request, res: Response) => {
     );
     return res.json(transactionData.data);
   } catch (err) {
-    console.log({ err });
+    if (err instanceof AxiosError) {
+      console.log(err.response?.data);
+      return res.status(400).json({ message: err.response?.data?.description });
+    }
     return res.status(500).json({ message: "Internal server error" });
   }
 };

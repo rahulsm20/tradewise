@@ -1,6 +1,3 @@
-import { DialogProps } from "@radix-ui/react-dialog";
-import { RotateCw } from "lucide-react";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,6 +8,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { DialogProps } from "@radix-ui/react-dialog";
+import { RotateCw } from "lucide-react";
+import { useState } from "react";
 
 type ConfirmationModalProps = DialogProps & {
   trigger?: React.ReactNode;
@@ -20,6 +20,10 @@ type ConfirmationModalProps = DialogProps & {
   close?: boolean;
   onOk?: () => Promise<void>;
   loading?: boolean;
+  okButtonProps?: {
+    className?: string;
+    disabled?: boolean;
+  };
 };
 
 const ConfirmationModal = ({
@@ -28,6 +32,7 @@ const ConfirmationModal = ({
   description = "This action cannot be undone. This will permanently delete your account and remove your data from our servers.",
   okText = "Yes",
   onOk = () => Promise.resolve(),
+  okButtonProps = {},
   loading = false,
 }: ConfirmationModalProps) => {
   const [open, setOpen] = useState(false);
@@ -43,6 +48,7 @@ const ConfirmationModal = ({
         <DialogFooter>
           <Button
             type="submit"
+            {...okButtonProps}
             onClick={() => {
               onOk().then(() => setOpen(false));
             }}

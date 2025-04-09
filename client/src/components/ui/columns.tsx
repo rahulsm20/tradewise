@@ -1,13 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table";
-import CopyToClipboard from "react-copy-to-clipboard";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "./tooltip";
-import { weiToEth } from "../../lib/utils";
 import dayjs from "dayjs";
+import { ArrowUpDown } from "lucide-react";
+import CopyToClipboard from "react-copy-to-clipboard";
+import { weiToEth } from "../../lib/utils";
 import {
   AssetType,
   DebtType,
@@ -15,8 +10,13 @@ import {
   IncomeType,
   TransactionType,
 } from "../../types";
-import { ArrowUpDown } from "lucide-react";
 import { Button } from "./button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./tooltip";
 
 export const Columns: ColumnDef<TransactionType>[] = [
   {
@@ -244,6 +244,7 @@ export const debtColumns: ColumnDef<DebtType>[] = [
   },
   {
     accessorKey: "interestRate",
+    header: "Interest Rate",
     cell: (info) => `${info.cell.row.original.interestRate}%`,
   },
 ];

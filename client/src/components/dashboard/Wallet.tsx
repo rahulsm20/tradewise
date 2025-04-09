@@ -1,6 +1,9 @@
+import { Button } from "@/components/ui/button";
+import { Columns } from "@/components/ui/columns";
+import { DataTable } from "@/components/ui/data-table";
 import { ConnectKitButton } from "connectkit";
 import dayjs from "dayjs";
-import { ArrowLeftRight, ArrowUpRight, RotateCw } from "lucide-react";
+import { ArrowLeftRight, ArrowUpRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
@@ -18,14 +21,13 @@ import {
   ValueType,
 } from "recharts/types/component/DefaultTooltipContent";
 import { useAccount, useBalance } from "wagmi";
-import { Button } from "@/components/ui/button";
-import { Columns } from "@/components/ui/columns";
-import { DataTable } from "@/components/ui/data-table";
-import { formatToLocalCurrency, weiToEth } from "../../lib/utils";
 import { apiService } from "../../api";
+import { formatToLocalCurrency, weiToEth } from "../../lib/utils";
 import { BalanceChartDataType } from "../../types";
 import { web3ActionDescriptions } from "../../utils/constants";
 import { StoreRootState } from "../../utils/types";
+import { LoadingEllipsis } from "../Loading";
+import ErrorModal from "../modals/ErrorModal";
 import WalletActionModal from "./WalletActionModal";
 
 // ------------------------------------------------------------
@@ -39,7 +41,13 @@ const Wallet = () => {
   const [loading, setLoading] = useState(false);
   const walletData = useSelector((state: StoreRootState) => state.wallet);
   const [chartData, setChartData] = useState<BalanceChartDataType[]>([]);
-
+  const [errorSuccessModal, setErrorSuccessModal] = useState({
+    open: false,
+    title: "",
+    description: "",
+    trigger: null,
+    onCancel: () => {},
+  });
   type WalletAction = "Buy / Sell" | "Send" | "Swap";
 
   const walletActions: {
@@ -105,11 +113,7 @@ const Wallet = () => {
   }, [isConnected, addresses]);
 
   if (loading) {
-    return (
-      <div>
-        <RotateCw className="animate-spin" />
-      </div>
-    );
+    return <LoadingEllipsis />;
   }
 
   return (
@@ -136,14 +140,11 @@ const Wallet = () => {
                 <WalletActionModal
                   title={action.name}
                   address={addresses[0]}
+                  setErrorSuccessModal={setErrorSuccessModal}
                   description={web3ActionDescriptions[action.name]}
                   trigger={
                     <div className="flex flex-col gap-1 items-center">
-                      <Button
-                        key={action.name}
-                        onClick={action.action}
-                        className="rounded-full"
-                      >
+                      <Button key={action.name} onClick={action.action}>
                         {action.icon}
                       </Button>
                       {action.name}
@@ -155,6 +156,10 @@ const Wallet = () => {
                 />
               ))}
             </div>
+            <p className="text-sm text-gray-500 flex gap-2">
+              <span>Swaps powered by 1inch </span>
+              <img src="/1inch.png" className="h-5 w-5" />
+            </p>
             {transactions && (
               <DataTable columns={Columns} data={transactions} />
             )}
@@ -184,6 +189,7 @@ const Wallet = () => {
           <></>
         )}
       </div>
+      <ErrorModal {...errorSuccessModal} />
     </div>
   );
 };

@@ -27,13 +27,13 @@ import { apiService } from "../../api";
 import { setStocks, setTickers } from "../../store/stocksSlice";
 import { chartColors } from "../../utils/constants";
 import { ChartData, SymbolData } from "../../utils/types";
-import Loading from "../Loading";
+import Loading, { LoadingEllipsis } from "../Loading";
 import { TWCombobox } from "../TWCombobox";
 import TickerCards from "./ticker-card";
 
 type StockProps = {
   onSubmit: SubmitHandler<FieldValues>;
-  tickers: SymbolData[];
+  tickers: SymbolData[] | undefined;
   data: ChartData[];
   loading: boolean;
   setLoading: (loading: boolean) => void;
@@ -103,38 +103,6 @@ const Stocks = ({ tickers, data = [], loading = true }: StockProps) => {
     }
   }, [stockOption]);
 
-  const CustomTooltip = ({
-    active,
-    payload,
-    label,
-  }: {
-    active?: string;
-    payload?: {
-      name: string;
-      value: string;
-      stroke: string;
-    }[];
-    label?: string;
-  }) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="custom-tooltip">
-          <p className="label flex flex-col gap-1 text-sm border p-2 bg-white dark:bg-black rounded-lg">
-            {payload.map((item) => (
-              <>
-                <span className="font-normal">{`${item.name} - ${item.value} USD`}</span>
-              </>
-            ))}
-            <span className="font-light dark:text-slate-300">{`${dayjs(
-              label
-            ).format("ddd, MMMM DD")}`}</span>
-          </p>
-        </div>
-      );
-    }
-    return null;
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       const { stockData = [], tickers = [] } = await apiService.getStockData();
@@ -145,7 +113,7 @@ const Stocks = ({ tickers, data = [], loading = true }: StockProps) => {
   }, []);
 
   if (loading || !tickers || stocksLoading) {
-    return <Loading />;
+    return <LoadingEllipsis />;
   }
 
   return (
@@ -219,6 +187,38 @@ const Stocks = ({ tickers, data = [], loading = true }: StockProps) => {
       )}
     </>
   );
+};
+
+const CustomTooltip = ({
+  active,
+  payload,
+  label,
+}: {
+  active?: string;
+  payload?: {
+    name: string;
+    value: string;
+    stroke: string;
+  }[];
+  label?: string;
+}) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="custom-tooltip">
+        <p className="label flex flex-col gap-1 text-sm border p-2 bg-white dark:bg-black rounded-lg">
+          {payload.map((item) => (
+            <>
+              <span className="font-normal">{`${item.name} - ${item.value} USD`}</span>
+            </>
+          ))}
+          <span className="font-light dark:text-slate-300">{`${dayjs(
+            label
+          ).format("ddd, MMMM DD")}`}</span>
+        </p>
+      </div>
+    );
+  }
+  return null;
 };
 
 export default Stocks;

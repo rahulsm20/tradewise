@@ -1,5 +1,5 @@
-import axios, { AxiosInstance } from "axios";
 import { Auth0Client } from "@auth0/auth0-spa-js";
+import axios, { AxiosInstance } from "axios";
 import { FieldValues } from "react-hook-form";
 import { UserDetailsType } from "../types";
 
@@ -138,17 +138,13 @@ class ApiService {
   }
 
   async sendSwap({ tokenOne, tokenTwo, tokenOneAmount, address }: FieldValues) {
-    try {
-      const response = await this.api.post("/swap", {
-        tokenOne,
-        tokenTwo,
-        tokenOneAmount,
-        address,
-      });
-      return response.data;
-    } catch (err) {
-      console.error(err);
-    }
+    const response = await this.api.post("/swap", {
+      tokenOne,
+      tokenTwo,
+      tokenOneAmount,
+      address,
+    });
+    return response.data;
   }
 
   async getTokenPrice({ tokenOne, tokenTwo, tokenOneAmount }: FieldValues) {

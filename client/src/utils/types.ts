@@ -3,7 +3,7 @@ import { AssetType, DebtType, ExpenditureType, IncomeType } from "../types";
 export type StoreRootState = {
   stocks: {
     stockData: [];
-    tickers: [];
+    tickers: SymbolData[] | undefined;
   };
   wallet: {
     info: {
@@ -67,4 +67,18 @@ export type SymbolData = {
   change: string;
   price: string;
   percentageChange: string;
+};
+
+export type ModalProps = {
+  trigger?: React.ReactNode;
+  title?: string;
+  description?: string;
+  okText?: string | React.ReactNode;
+  cancelText?: string;
+  onOk?: () => Promise<void>;
+  onCancel?: () => void;
+  loading?: boolean;
+  children?: React.ReactNode;
+  setModalOpen?: (open: boolean) => void;
+  modalOpen?: boolean;
 };

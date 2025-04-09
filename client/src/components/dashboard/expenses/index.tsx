@@ -775,9 +775,13 @@ const AddExpenditureModal = ({
     name: z.string().min(2, {
       message: "Asset type must be atleast 2 characters long",
     }),
-    value: z.coerce.number().min(0, {
-      message: "Value must be greater than 0",
-    }),
+    value: z.coerce
+      .number({
+        message: "Value must be a number",
+      })
+      .min(0, {
+        message: "Value must be greater than 0",
+      }),
   });
 
   const expenditureForm = useForm({
