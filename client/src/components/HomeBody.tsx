@@ -77,11 +77,11 @@ const HomeBody = () => {
       ) : (
         <div className="flex flex-col gap-5 p-5 w-[95%]">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-            {displayedNews &&
-              displayedNews.length > 0 &&
-              displayedNews.map((article: NewsArticleType, key: number) => (
-                <NewsCard article={article} key={key} />
-              ))}
+            {displayedNews && displayedNews.length > 0
+              ? displayedNews.map((article: NewsArticleType, key: number) => (
+                  <NewsCard article={article} key={key} />
+                ))
+              : "No articles found"}
           </div>
           <Pagination>
             <PaginationContent>
